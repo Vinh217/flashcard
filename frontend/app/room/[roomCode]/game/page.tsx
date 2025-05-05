@@ -52,8 +52,10 @@ export default function GamePage() {
     });
     
     socket.on('time_update', (data) => {
-      setTimeLeft(data.timeLeft);
-      setCurrentMaxScore(data.currentMaxScore);
+      if (!hasAnswered) {
+        setTimeLeft(data.timeLeft);
+        setCurrentMaxScore(data.currentMaxScore);
+      }
     });
     
     socket.on('answer_result', (data) => {
