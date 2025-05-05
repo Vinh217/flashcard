@@ -26,12 +26,17 @@ interface GameState {
   }>;
   timer: NodeJS.Timeout | null;
   timeLeft: number;
+  isShowingResults: boolean;
+  resultsTimer: NodeJS.Timeout | null;
+  allAnswered: boolean;
 }
 
 const gameStates = new Map<string, GameState>();
 
 // Thời gian cho mỗi câu hỏi (giây)
-const QUESTION_TIME = 10;
+const QUESTION_TIME = 15;
+// Thời gian hiển thị kết quả (giây)
+const RESULT_DISPLAY_TIME = 3;
 // Số lượng câu hỏi trong mỗi game
 const QUESTIONS_PER_GAME = 20;
 
@@ -147,7 +152,10 @@ const startNewGame = async (io: Server, roomCode: string): Promise<void> => {
       currentQuestionIndex: 0,
       playerAnswers: new Map(),
       timer: null,
-      timeLeft: QUESTION_TIME
+      timeLeft: QUESTION_TIME,
+      isShowingResults: false,
+      resultsTimer: null,
+      allAnswered: false
     });
     
     // Gửi câu hỏi đầu tiên
@@ -204,6 +212,14 @@ const startQuestionTimer = (io: Server, roomId: string): void => {
 const moveToNextQuestion = async (io: Server, roomId: string): Promise<void> => {
   const gameState = gameStates.get(roomId);
   if (!gameState) return;
+  
+  // Reset trạng thái
+  gameState.isShowingResults = false;
+  gameState.allAnswered = false;
+  if (gameState.resultsTimer) {
+    clearTimeout(gameState.resultsTimer);
+    gameState.resultsTimer = null;
+  }
   
   // Tăng index câu hỏi
   gameState.currentQuestionIndex++;
@@ -331,6 +347,11 @@ export const setupGameHandlers = (io: Server, socket: Socket) => {
       if (!gameState) {
         return;
       }
+
+      // Nếu đang trong giai đoạn hiển thị kết quả, không cho phép trả lời
+      if (gameState.isShowingResults) {
+        return;
+      }
       
       // Lấy câu hỏi hiện tại
       const currentQuestion = gameState.questions[gameState.currentQuestionIndex];
@@ -375,17 +396,30 @@ export const setupGameHandlers = (io: Server, socket: Socket) => {
       const currentQuestionAnswers = Array.from(gameState.playerAnswers.values())
         .filter(a => a.questionId === questionId);
       
-      // Nếu tất cả người chơi đã trả lời, chuyển sang câu hỏi tiếp theo
-      if (currentQuestionAnswers.length >= roomUsers.length) {
+      // Nếu tất cả người chơi đã trả lời và chưa đánh dấu là đã trả lời hết
+      if (currentQuestionAnswers.length >= roomUsers.length && !gameState.allAnswered) {
+        // Đánh dấu là tất cả đã trả lời
+        gameState.allAnswered = true;
+        
+        // Dừng timer câu hỏi
         if (gameState.timer) {
           clearInterval(gameState.timer);
           gameState.timer = null;
         }
         
-        // Chờ một chút để người chơi xem kết quả
-        setTimeout(() => {
+        // Đánh dấu đang trong giai đoạn hiển thị kết quả
+        gameState.isShowingResults = true;
+        
+        // Gửi thông báo hiển thị kết quả
+        io.to(room.id).emit('show_results', {
+          questionId,
+          timeLeft: RESULT_DISPLAY_TIME
+        });
+        
+        // Đặt timer cho việc hiển thị kết quả
+        gameState.resultsTimer = setTimeout(() => {
           moveToNextQuestion(io, room.id);
-        }, 2000);
+        }, RESULT_DISPLAY_TIME * 1000);
       }
     } catch (error) {
       console.error('Error submitting answer:', error);

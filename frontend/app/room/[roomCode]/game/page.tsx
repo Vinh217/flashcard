@@ -143,7 +143,7 @@ export default function GamePage() {
           </div>
           
           <div className="flex justify-center">
-            <Button onClick={returnToLobby}>
+            <Button onClick={returnToLobby} variant="outline">
               Return to Lobby
             </Button>
           </div>
