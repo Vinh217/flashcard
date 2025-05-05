@@ -1,7 +1,8 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
-import { IGameQuestion } from '../types/entities.ts';
-import { Room } from './Room.ts';
-import { Vocabulary } from './Vocabulary.ts';
+import { IGameQuestion } from '../types/entities';
+import { Room } from './Room.js';
+import { Vocabulary } from './Vocabulary.js';
+
 
 @Entity('game_questions')
 export class GameQuestion implements Partial<IGameQuestion> {

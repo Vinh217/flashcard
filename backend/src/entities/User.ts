@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToMany } from 'typeorm';
-import { IUser } from '../types/entities.ts';
-import { RoomUser } from './RoomUser.ts';
+import { RoomUser } from './RoomUser.js';
+import { IUser } from '../types/entities';
 
 @Entity('users')
 export class User implements Partial<IUser> {

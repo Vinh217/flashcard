@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
-import { IVocabulary } from '../types/entities.ts';
+import { IVocabulary } from '../types/entities';
 
 @Entity('vocabulary')
 export class Vocabulary implements Partial<IVocabulary> {

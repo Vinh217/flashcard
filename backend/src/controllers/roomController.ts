@@ -1,9 +1,9 @@
 import { Server, Socket } from 'socket.io';
-import { AppDataSource } from '../config/database.ts';
-import { Room } from '../entities/Room.ts';
-import { User } from '../entities/User.ts';
-import { RoomUser } from '../entities/RoomUser.ts';
-import { IPlayer } from '../types/entities.ts';
+import { AppDataSource } from '../config/database.js';
+import { Room } from '../entities/Room.js';
+import { User } from '../entities/User.js';
+import { RoomUser } from '../entities/RoomUser.js';
+import { IPlayer } from '../types/entities.js';
 
 const roomRepository = AppDataSource.getRepository(Room);
 const userRepository = AppDataSource.getRepository(User);

@@ -1,11 +1,11 @@
 import { Server, Socket } from 'socket.io';
-import { AppDataSource } from '../config/database.ts';
-import { Room } from '../entities/Room.ts';
-import { User } from '../entities/User.ts';
-import { RoomUser } from '../entities/RoomUser.ts';
-import { Vocabulary } from '../entities/Vocabulary.ts';
-import { GameQuestion } from '../entities/GameQuestion.ts';
-import { IQuizQuestion, IQuestionOption, IGameResult } from '../types/entities.ts';
+import { AppDataSource } from '../config/database.js';
+import { RoomUser } from '../entities/RoomUser.js';
+import { Room } from '../entities/Room.js';
+import { User } from '../entities/User.js';
+import { Vocabulary } from '../entities/Vocabulary.js';
+import { GameQuestion } from '../entities/GameQuestion.js';
+import { IGameResult, IQuestionOption, IQuizQuestion } from '../types/entities.js';
 
 const roomRepository = AppDataSource.getRepository(Room);
 const userRepository = AppDataSource.getRepository(User);
