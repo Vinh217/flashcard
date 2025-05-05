@@ -45,6 +45,8 @@ body {
   align-items: center;
   justify-content: center;
   margin: 0 auto;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 .flashcard-outer:hover {
   box-shadow: 0 12px 40px 0 rgba(255, 190, 152, 0.18);
@@ -58,6 +60,8 @@ body {
   padding-bottom: 0.5rem;
   scrollbar-width: thin;
   scrollbar-color: var(--peach-fuzz) #f5e7de;
+  padding-top: 0.2rem;
+  margin-bottom: 0.5rem;
 }
 .topic-scroll::-webkit-scrollbar {
   height: 6px;
@@ -78,7 +82,7 @@ body {
   border: 2px solid var(--peach-fuzz);
   transition: background 0.2s, color 0.2s, border 0.2s;
   white-space: nowrap;
-  margin-bottom: 0;
+  margin-bottom: 0.2rem;
 }
 .topic-btn.selected, .topic-btn:active {
   background: var(--peach-fuzz);
@@ -150,19 +154,48 @@ body {
 /* Responsive */
 @media (max-width: 600px) {
   .flashcard-outer {
-    height: 210px;
+    height: 180px;
     max-width: 98vw;
     min-width: 0;
+    border-radius: 1.2rem;
+    box-shadow: 0 4px 16px 0 rgba(255, 190, 152, 0.18);
   }
   .card-word {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
   .card-meaning {
-    font-size: 1.05rem;
+    font-size: 0.98rem;
   }
   .btn, .btn-primary {
+    min-width: 60px;
+    font-size: 0.93rem;
+    padding: 0.55rem 0.7rem;
+    border-radius: 1.2rem;
+    margin-bottom: 0.2rem;
+  }
+  .topic-btn {
     min-width: 70px;
     font-size: 0.95rem;
-    padding: 0.5rem 0.8rem;
+    padding: 0.45rem 0.7rem;
+    border-radius: 1.2rem;
+    margin-bottom: 0.2rem;
   }
+  .topic-scroll {
+    gap: 0.5rem;
+    padding-bottom: 0.2rem;
+  }
+  .card-index {
+    font-size: 0.98rem;
+    min-width: 40px;
+  }
+  main, .main {
+    padding-left: 0.2rem !important;
+    padding-right: 0.2rem !important;
+  }
+}
+
+/* Add a little more spacing and shadow for modern look */
+.topic-btn, .btn, .btn-primary {
+  box-shadow: 0 2px 8px 0 rgba(255, 190, 152, 0.10);
+  margin-bottom: 0.2rem;
 }
