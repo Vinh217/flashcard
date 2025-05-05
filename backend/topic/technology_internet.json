@@ -1,0 +1,308 @@
+[
+  {
+    "word": "User friendly",
+    "pronunciation": "/ˌjuːzər ˈfrendli/",
+    "meaning": "Thân thiện với người dùng",
+    "topic": "Technology Internet"
+  },
+  {
+    "word": "Broadcast",
+    "pronunciation": "/ˈbrɔːdkæst/",
+    "meaning": "Phát thanh, truyền đi tin tức",
+    "topic": "Technology Internet",
+    "word_family": "Broadcaster /ˈbrɔːdkæstər/ (n): Phát thanh viên"
+  },
+  {
+    "word": "Artificial",
+    "pronunciation": "/ˌɑːrtɪˈfɪʃl/",
+    "meaning": "Nhân tạo",
+    "topic": "Technology Internet"
+  },
+  {
+    "word": "Stream",
+    "pronunciation": "/striːm/",
+    "meaning": "Phát trực tiếp tất cả nội dung từ hình ảnh, video, âm thanh trực tiếp đến người khác mà ở đây có thể là người xem, người nghe.",
+    "topic": "Technology Internet"
+  },
+  {
+    "word": "Tutorial",
+    "pronunciation": "/tuːˈtɔːriəl/",
+    "meaning": "Hướng dẫn",
+    "topic": "Technology Internet",
+    "word_family": "Tutor /ˈtuːtər/ (n): Người hướng dẫn"
+  },
+  {
+    "word": "Interactive",
+    "pronunciation": "/ˌɪntərˈæktɪv/",
+    "meaning": "Tương tác",
+    "topic": "Technology Internet",
+    "word_family": "Interact /ˌɪntərˈækt/ (v): Tương tác"
+  },
+  {
+    "word": "Breakthrough",
+    "pronunciation": "/ˈbreɪkθruː/",
+    "meaning": "Bước (sự) đột phá",
+    "topic": "Technology Internet"
+  },
+  {
+    "word": "Engage in",
+    "pronunciation": "/ɪnˈɡeɪdʒ ɪn /",
+    "meaning": "Tham gia",
+    "topic": "Technology Internet"
+  },
+  {
+    "word": "Cybercriminal",
+    "pronunciation": "/saɪbər ˈkrɪmɪnl/",
+    "meaning": "Tội phạm mạng",
+    "topic": "Technology Internet"
+  },
+  {
+    "word": "Era",
+    "pronunciation": "/ˈerə/",
+    "meaning": "Kỷ nguyên",
+    "topic": "Technology Internet"
+  },
+  {
+    "word": "Plug in",
+    "pronunciation": "/plʌɡ ɪn/",
+    "meaning": "Cắm phích điện.",
+    "topic": "Technology Internet"
+  },
+  {
+    "word": "Videoconferencing",
+    "pronunciation": "/ˈvɪdiəʊkɑːnfərənsɪŋ/",
+    "meaning": "Tổ chức hội nghị qua video",
+    "topic": "Technology Internet"
+  },
+  {
+    "word": "Notification",
+    "pronunciation": "/ˌnəʊtɪfɪˈkeɪʃn/",
+    "meaning": "Thông báo",
+    "topic": "Technology Internet",
+    "word_family": "Notify /ˈnəʊtɪfaɪ/ (v): Thông báo"
+  },
+  {
+    "word": "Social media",
+    "pronunciation": "/ˌsəʊʃl ˈmiːdiə/",
+    "meaning": "Truyền thông , xã hội",
+    "topic": "Technology Internet"
+  },
+  {
+    "word": "Search engine",
+    "pronunciation": "/ˈsɜːrtʃ endʒɪn/",
+    "meaning": "Công cụ tìm kiếm.",
+    "topic": "Technology Internet"
+  },
+  {
+    "word": "Browser",
+    "pronunciation": "/ˈbraʊzər/",
+    "meaning": "Trình duyệt web",
+    "topic": "Technology Internet"
+  },
+  {
+    "word": "Access",
+    "pronunciation": "/ˈækses/",
+    "meaning": "Truy cập,lối vào",
+    "topic": "Technology Internet",
+    "word_family": "Accessible /əkˈsesəbl/ (adj): Có thể truy cập, ra vào"
+  },
+  {
+    "word": "Compatible",
+    "pronunciation": "/kəmˈpætəbl/",
+    "meaning": "Tương thích",
+    "topic": "Technology Internet"
+  },
+  {
+    "word": "Allocate",
+    "pronunciation": "/ˈæləkeɪt/",
+    "meaning": "Phân bổ, phân phát",
+    "topic": "Technology Internet",
+    "word_family": "Allocation /ˌæləˈkeɪʃn/ (n): Sự phân bổ"
+  },
+  {
+    "word": "Duplicate",
+    "pronunciation": "/ˈduːplɪkeɪt/",
+    "meaning": "Bản sao, sao chép",
+    "topic": "Technology Internet"
+  },
+  {
+    "word": "In-depth",
+    "pronunciation": "/ˌɪn ˈdepθ/",
+    "meaning": "Chuyên sâu",
+    "topic": "Technology Internet"
+  },
+  {
+    "word": "Subscribe",
+    "pronunciation": "/səbˈskraɪb/",
+    "meaning": "Đặt mua (báo, tạp chí…), tán thành…",
+    "topic": "Technology Internet",
+    "word_family": "Subscription /səbˈskrɪpʃn/ (n): Sự đặt mua báo, tạp chí"
+  },
+  {
+    "word": "Headline",
+    "pronunciation": "/ˈhedlaɪn/",
+    "meaning": "Tiêu đề (báo, tạp chí), Phần tóm tắt tin tức chính",
+    "topic": "Technology Internet"
+  },
+  {
+    "word": "Ignore",
+    "pronunciation": "/ɪɡˈnɔːr/",
+    "meaning": "Phớt lờ, không dành sự chú ý",
+    "topic": "Technology Internet"
+  },
+  {
+    "word": "Sign up",
+    "pronunciation": "/saɪn ʌp/",
+    "meaning": "Đăng ký",
+    "topic": "Technology Internet"
+  },
+  {
+    "word": "Hardware",
+    "pronunciation": "/ˈhɑːrdwer/",
+    "meaning": "Phần cứng",
+    "topic": "Technology Internet"
+  },
+  {
+    "word": "Accessory",
+    "pronunciation": "/əkˈsesəri/",
+    "meaning": "Phụ kiện",
+    "topic": "Technology Internet"
+  },
+  {
+    "word": "Switch on",
+    "pronunciation": "/swɪtʃ ɑːn/",
+    "meaning": "Bật (đèn, công tắc…)",
+    "topic": "Technology Internet"
+  },
+  {
+    "word": "Switch off",
+    "pronunciation": "/swɪtʃ ɔːf/",
+    "meaning": "Tắt (đèn, công tắc…)",
+    "topic": "Technology Internet"
+  },
+  {
+    "word": "Spreadsheet",
+    "pronunciation": "/ˈspredʃiːt/",
+    "meaning": "Bảng tính",
+    "topic": "Technology Internet"
+  },
+  {
+    "word": "Hard drive",
+    "pronunciation": "/ˈhɑːrd draɪv/",
+    "meaning": "Ổ cứng",
+    "topic": "Technology Internet"
+  },
+  {
+    "word": "Backup",
+    "pronunciation": "/ˈbækʌp/",
+    "meaning": "Sao lưu dữ liệu, hỗ trợ",
+    "topic": "Technology Internet"
+  },
+  {
+    "word": "Graphic",
+    "pronunciation": "/ˈɡræfɪk/",
+    "meaning": "Đồ họa",
+    "topic": "Technology Internet"
+  },
+  {
+    "word": "Firewall",
+    "pronunciation": "/ˈfaɪərwɔːl/",
+    "meaning": "Tường lửa",
+    "topic": "Technology Internet"
+  },
+  {
+    "word": "State-of-the-art",
+    "pronunciation": "/ˌsteɪt əv ði ˈɑːrt/",
+    "meaning": "(Sử dụng công nghệ, biện pháp) tiên tiến, hiện đại",
+    "topic": "Technology Internet"
+  },
+  {
+    "word": "Outdated",
+    "pronunciation": "/ˌaʊtˈdeɪtɪd/",
+    "meaning": "Lỗi thời, cũ",
+    "topic": "Technology Internet"
+  },
+  {
+    "word": "Database",
+    "pronunciation": "/ˈdætəbeɪs/",
+    "meaning": "Cơ sở dữ liệu",
+    "topic": "Technology Internet"
+  },
+  {
+    "word": "Word processor",
+    "pronunciation": "/ˈwɜːrd prɑːsesər/",
+    "meaning": "Máy (chương trình) xử lý văn bản",
+    "topic": "Technology Internet"
+  },
+  {
+    "word": "Router",
+    "pronunciation": "/ˈraʊtər/",
+    "meaning": "Bộ định tuyến",
+    "topic": "Technology Internet"
+  },
+  {
+    "word": "Programmer",
+    "pronunciation": "/ˈprəʊɡræmər/",
+    "meaning": "Lập trình viên",
+    "topic": "Technology Internet",
+    "word_family": "Programming Programming (n): Sự lập trình"
+  },
+  {
+    "word": "Take advantage of",
+    "pronunciation": "/ teɪk ədˈvæntɪdʒ əv /",
+    "meaning": "Sử dụng, tận dụng, lợi dụng (bóc lột)",
+    "topic": "Technology Internet"
+  },
+  {
+    "word": "Cope with",
+    "pronunciation": "/kəʊp wɪθ /",
+    "meaning": "Đương đầu , đối phó, giải quyết điều khó khăn một cách thành công",
+    "topic": "Technology Internet"
+  },
+  {
+    "word": "",
+    "pronunciation": "/ˈæktɪveɪt/",
+    "meaning": "Kích hoạt",
+    "topic": "Technology Internet",
+    "word_family": "Activation /ˌæktɪˈveɪʃn/ (n): sự kích hoạt"
+  },
+  {
+    "word": "Insight",
+    "pronunciation": "/ˈɪnsaɪt/",
+    "meaning": "Sự hiểu biết sâu sắc, nhìn thấu bên trong",
+    "topic": "Technology Internet"
+  },
+  {
+    "word": "Occur",
+    "pronunciation": "/əˈkɜːr/",
+    "meaning": "Xuất hiện, xảy ra",
+    "topic": "Technology Internet",
+    "word_family": "Occurrence /əˈkɜːrəns/ (n): Sự kiện, sự cố , sự xảy ra"
+  },
+  {
+    "word": "Observe",
+    "pronunciation": "/əbˈzɜːrv/",
+    "meaning": "Quan sát, theo dõi",
+    "topic": "Technology Internet",
+    "word_family": "Observation /ˌɑːbzərˈveɪʃn/ (n): Sự quan sát, theo dõi"
+  },
+  {
+    "word": "Refrain",
+    "pronunciation": "/rɪˈfreɪn/",
+    "meaning": "Kiềm chế, hạn chế làm gì",
+    "topic": "Technology Internet"
+  },
+  {
+    "word": "Investigate",
+    "pronunciation": "/ɪnˈvestɪɡeɪt/",
+    "meaning": "Điều tra",
+    "topic": "Technology Internet",
+    "word_family": "Investigation /ɪnˌvestɪˈɡeɪʃn/ (n): Sự điều tra"
+  },
+  {
+    "word": "Crash",
+    "pronunciation": "/kræʃ/",
+    "meaning": "Sự cố, sự hỏng hóc",
+    "topic": "Technology Internet"
+  }
+]

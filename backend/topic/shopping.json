@@ -1,0 +1,313 @@
+[
+  {
+    "word": "Checkout",
+    "pronunciation": "/ˈtʃekaʊt/",
+    "meaning": "Sự (quầy) thanh toán tiền",
+    "topic": "Shopping"
+  },
+  {
+    "word": "Warranty",
+    "pronunciation": "/ˈwɔːrənti/",
+    "meaning": "Bảo hành",
+    "topic": "Shopping",
+    "word_family": "Warant /ˈwɔːrənt/ (v): Bảo hành"
+  },
+  {
+    "word": "Refund",
+    "pronunciation": "/ˈriːfʌnd/",
+    "meaning": "Hoàn tiền",
+    "topic": "Shopping"
+  },
+  {
+    "word": "Discount",
+    "pronunciation": "/ˈdɪskaʊnt/",
+    "meaning": "Chiết khấu, tiền chiết khấu",
+    "topic": "Shopping"
+  },
+  {
+    "word": "Clearance sale",
+    "pronunciation": "/ˈklɪrəns seɪl/",
+    "meaning": "Bán hạ giá để giải phóng hàng tồn kho.",
+    "topic": "Shopping"
+  },
+  {
+    "word": "Quantity",
+    "pronunciation": "/ˈkwɑːntəti/",
+    "meaning": "Số lượng",
+    "topic": "Shopping"
+  },
+  {
+    "word": "Price list",
+    "pronunciation": "/ˈpraɪs lɪst/",
+    "meaning": "Danh sách giá (sản phẩm, dịch vụ…)",
+    "topic": "Shopping"
+  },
+  {
+    "word": "Discount coupon",
+    "pronunciation": "/ˈdɪskaʊnt ˈkjuːpɑːn/",
+    "meaning": "Phiếu giảm giá",
+    "topic": "Shopping"
+  },
+  {
+    "word": "Loyalty card",
+    "pronunciation": "/ˈlɔɪ.əl.t̬i ˌkɑːrd /",
+    "meaning": "Thẻ khách hàng thường xuyên",
+    "topic": "Shopping"
+  },
+  {
+    "word": "Redeem",
+    "pronunciation": "/rɪˈdiːm/",
+    "meaning": "Quy đổi, chuộc lại",
+    "topic": "Shopping",
+    "word_family": "Qualified /ˈkwɑːlɪfaɪd/ (adj): Đủ tư cách, điều kiện"
+  },
+  {
+    "word": "Valid",
+    "pronunciation": "/ˈvælɪd/",
+    "meaning": "Có hiệu lực,hợp lệ, có giá trị",
+    "topic": "Shopping",
+    "word_family": "Validate /ˈvælɪdeɪt/ (v): Phê chuẩn (thông qua), almf cho có hiệu lực"
+  },
+  {
+    "word": "Apparel",
+    "pronunciation": "/əˈpærəl/",
+    "meaning": "Trang phục, quần áo",
+    "topic": "Shopping",
+    "synonym": "Clothes/Clothing"
+  },
+  {
+    "word": "Fabric",
+    "pronunciation": "/ˈfæbrɪk/",
+    "meaning": "Chất liệu, vải vóc",
+    "topic": "Shopping"
+  },
+  {
+    "word": "Department store",
+    "pronunciation": "/dɪˈpɑːrtmənt stɔːr/",
+    "meaning": "Cửa hàng bách hóa.",
+    "topic": "Shopping"
+  },
+  {
+    "word": "Auction",
+    "pronunciation": "/ˈɔːkʃn/",
+    "meaning": "Đấu giá",
+    "topic": "Shopping"
+  },
+  {
+    "word": "Affordable",
+    "pronunciation": "/əˈfɔːrdəbl/",
+    "meaning": "Phải chăng, hợp lý",
+    "topic": "Shopping",
+    "synonym": "Reasonable /ˈriːznəbl/"
+  },
+  {
+    "word": "Markdown",
+    "pronunciation": "/ˈmɑːrkdaʊn/",
+    "meaning": "Sự giảm giá",
+    "topic": "Shopping"
+  },
+  {
+    "word": "Giveaway",
+    "pronunciation": "/ˈɡɪvəweɪ/",
+    "meaning": "Tặng phẩm, hàng tặng",
+    "topic": "Shopping"
+  },
+  {
+    "word": "Flat rate",
+    "pronunciation": "/ˌflæt ˈreɪt/",
+    "meaning": "Gía bán đồng nhất, tỷ lệ (mức) cố định",
+    "topic": "Shopping"
+  },
+  {
+    "word": "Promotion",
+    "pronunciation": "/prəˈməʊʃn/",
+    "meaning": "Chương trình khuyến mãi, giảm giá",
+    "topic": "Shopping"
+  },
+  {
+    "word": "Retail price",
+    "pronunciation": "/ˌriːteɪl ˈpraɪs/",
+    "meaning": "Gía bán lẻ",
+    "topic": "Shopping"
+  },
+  {
+    "word": "Sales clerk",
+    "pronunciation": "/ˈseɪlz klɜːrk/",
+    "meaning": "Nhân viên bán hàng",
+    "topic": "Shopping",
+    "synonym": "Sales assistant"
+  },
+  {
+    "word": "Return policy",
+    "pronunciation": "/rɪˈtɜːrn ˈpɑːləsi/",
+    "meaning": "Chính sách hoàn trả sản phẩm.",
+    "topic": "Shopping"
+  },
+  {
+    "word": "Furnishings",
+    "pronunciation": "/ˈfɜːrnɪʃɪŋz/",
+    "meaning": "Đồ đạc, đồ dùng trong nhà",
+    "topic": "Shopping"
+  },
+  {
+    "word": "Time-consuming",
+    "pronunciation": "/ˈtaɪm kənsuːmɪŋ/",
+    "meaning": "Tốn thời gian",
+    "topic": "Shopping"
+  },
+  {
+    "word": "Garment",
+    "pronunciation": "/ˈɡɑːrmənt/",
+    "meaning": "Hàng may mặc, quần áo",
+    "topic": "Shopping"
+  },
+  {
+    "word": "Luxury goods",
+    "pronunciation": "/ˌlʌk.ʃɚ.i ˈɡʊdz/",
+    "meaning": "Hàng xa xỉ (cao cấp)",
+    "topic": "Shopping"
+  },
+  {
+    "word": "Outlet",
+    "pronunciation": "/ˈaʊtlet/",
+    "meaning": "Cửa hàng",
+    "topic": "Shopping"
+  },
+  {
+    "word": "A brick and mortar shop (store…)",
+    "pronunciation": "",
+    "meaning": "Cửa hàng vật lý (tại đó hàng hóa và dịch vụ được cung cấp trực tiếp cho khách hàng)",
+    "topic": "Shopping"
+  },
+  {
+    "word": "Door-to-door",
+    "pronunciation": "/ˌdɔːr.t̬əˈdɔːr/",
+    "meaning": "Trực tiếp (tới tận cửa)",
+    "topic": "Shopping"
+  },
+  {
+    "word": "One-stop shop",
+    "pronunciation": "/ˌwʌn.stɑːp ˈʃɑːp/",
+    "meaning": "Cửa hàng một cửa",
+    "topic": "Shopping"
+  },
+  {
+    "word": "Credit card",
+    "pronunciation": "/ˈkredɪt kɑːrd/",
+    "meaning": "Thẻ tín dụng",
+    "topic": "Shopping"
+  },
+  {
+    "word": "Debit card",
+    "pronunciation": "/ˈdebɪt kɑːrd/",
+    "meaning": "Thẻ ghi nợ",
+    "topic": "Shopping"
+  },
+  {
+    "word": "Money order",
+    "pronunciation": "/ˈmʌni ɔːrdər/",
+    "meaning": "Lệnh chi tiền, phiếu chuyển tiền",
+    "topic": "Shopping"
+  },
+  {
+    "word": "Points card",
+    "pronunciation": "/pɔɪnts kɑːrd/",
+    "meaning": "Thẻ tích điểm",
+    "topic": "Shopping",
+    "synonym": "Loyalty card"
+  },
+  {
+    "word": "Installment",
+    "pronunciation": "/ɪnˈstɔːlmənt /",
+    "meaning": "Trả góp",
+    "topic": "Shopping"
+  },
+  {
+    "word": "Partial payment",
+    "pronunciation": "/ˈpɑːrʃl ˈpeɪmənt/",
+    "meaning": "Trả (thanh toán) từng phần, một phần",
+    "topic": "Shopping",
+    "synonym": "Part payment"
+  },
+  {
+    "word": "Deduct",
+    "pronunciation": "/dɪˈdʌkt/",
+    "meaning": "Khấu trừ",
+    "topic": "Shopping",
+    "word_family": "Deduction /dɪˈdʌkʃn/ (n): sự khấu trừ"
+  },
+  {
+    "word": "Reduction",
+    "pronunciation": "/rɪˈdʌkʃn/",
+    "meaning": "Sự cắt giảm (giá, lương…)",
+    "topic": "Shopping",
+    "word_family": "Reduce /rɪˈduːs/ (v): Cắt giảm"
+  },
+  {
+    "word": "Customer satisfaction",
+    "pronunciation": "/ˈkʌstəmər ˌsætɪsˈfækʃn/",
+    "meaning": "Sự hài lòng khách hàng.",
+    "topic": "Shopping"
+  },
+  {
+    "word": "Price range",
+    "pronunciation": "/praɪs reɪndʒ/",
+    "meaning": "Khung giá, mức giá",
+    "topic": "Shopping",
+    "example": [
+      "On the website you can browse our products by price range.",
+      "You may find that property with land attached is outside your price range."
+    ]
+  },
+  {
+    "word": "Back order",
+    "pronunciation": "/ˈbæk ˌɔːr.dɚ/",
+    "meaning": "",
+    "topic": "Shopping"
+  },
+  {
+    "word": "In stock",
+    "pronunciation": "/ ɪn ˌstɑːk /",
+    "meaning": "Còn hàng (trong kho)",
+    "topic": "Shopping"
+  },
+  {
+    "word": "Dimension",
+    "pronunciation": "/dɪˈmenʃn/",
+    "meaning": "Chiều , cạnh , kích thước",
+    "topic": "Shopping"
+  },
+  {
+    "word": "Expedite",
+    "pronunciation": "/ˈekspədaɪt/",
+    "meaning": "Xúc tiến, đẩy nhanh",
+    "topic": "Shopping"
+  },
+  {
+    "word": "Remit",
+    "pronunciation": "/rɪˈmɪt/",
+    "meaning": "Gửi tiền cho ai",
+    "topic": "Shopping",
+    "word_family": "Remittance /rɪˈmɪtns/ (n): Sự thanh toán, gửi tiền"
+  },
+  {
+    "word": "Afford",
+    "pronunciation": "/əˈfɔːrd/",
+    "meaning": "Có khả năng chi trả (mua) cái gì",
+    "topic": "Shopping"
+  },
+  {
+    "word": "Clarify",
+    "pronunciation": "/ˈklærəfaɪ/",
+    "meaning": "Làm sáng tỏ, rõ ràng",
+    "topic": "Shopping",
+    "word_family": "Clarity (n): sự làm sáng tỏ, rõ ràng"
+  },
+  {
+    "word": "Accumulate",
+    "pronunciation": "/əˈkjuːmjəleɪt/",
+    "meaning": "Tích lũy",
+    "topic": "Shopping",
+    "word_family": "Accumulation /əˌkjuːmjəˈleɪʃn/ (n): sự tích lũy"
+  }
+]

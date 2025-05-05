@@ -1,0 +1,311 @@
+[
+  {
+    "word": "Cargo",
+    "pronunciation": "/ˈkɑːrɡəʊ/",
+    "meaning": "Hàng hóa được vận chuyển bằng tàu (máy bay, phương tiện lớn)",
+    "topic": "Shipping"
+  },
+  {
+    "word": "Fragile",
+    "pronunciation": "/ˈfrædʒl/",
+    "meaning": "Mỏng manh, dễ vỡ",
+    "topic": "Shipping"
+  },
+  {
+    "word": "Courier",
+    "pronunciation": "/ˈkʊriər/",
+    "meaning": "Người chuyển phát nhanh (thư, bưu kiện), công ty vận chuyển",
+    "topic": "Shipping"
+  },
+  {
+    "word": "Tariff",
+    "pronunciation": "/ˈtærɪf/",
+    "meaning": "Thuế quan, thuế xuất nhập khẩu",
+    "topic": "Shipping"
+  },
+  {
+    "word": "Destination",
+    "pronunciation": "/ˌdestɪˈneɪʃn/",
+    "meaning": "Điểm đến, đích đến",
+    "topic": "Shipping"
+  },
+  {
+    "word": "Shipment",
+    "pronunciation": "/ˈʃɪpmənt/",
+    "meaning": "Việc gửi hàng, hàng gửi",
+    "topic": "Shipping"
+  },
+  {
+    "word": "Package",
+    "pronunciation": "/ˈpækɪdʒ/",
+    "meaning": "Bưu kiện",
+    "topic": "Shipping",
+    "synonym": "Parcel /ˈpɑːrsl/ (n)"
+  },
+  {
+    "word": "Clearing customs (phr)",
+    "pronunciation": "",
+    "meaning": "Thông quan hàng hóa.",
+    "topic": "Shipping"
+  },
+  {
+    "word": "Fulfill",
+    "pronunciation": "/fʊlˈfɪl/",
+    "meaning": "Thực hiện, thi hành",
+    "topic": "Shipping",
+    "word_family": "Fulfillment /fʊlˈfɪlmənt/ (n): Sự thực hiện (đơn hàng…)"
+  },
+  {
+    "word": "Content",
+    "pronunciation": "/ˈkɑːntent/",
+    "meaning": "Nội dung, đồ (hàng hóa) đựng bên trong.",
+    "topic": "Shipping"
+  },
+  {
+    "word": "Border",
+    "pronunciation": "/ˈbɔːrdər/",
+    "meaning": "Biên giới.",
+    "topic": "Shipping"
+  },
+  {
+    "word": "Warehouse",
+    "pronunciation": "/ˈwerhaʊs/",
+    "meaning": "Nhà kho",
+    "topic": "Shipping"
+  },
+  {
+    "word": "Supplier",
+    "pronunciation": "/səˈplaɪər/",
+    "meaning": "Nhà cung cấp",
+    "topic": "Shipping"
+  },
+  {
+    "word": "Goods",
+    "pronunciation": "/ ɡʊdz/",
+    "meaning": "Hàng hóa",
+    "topic": "Shipping"
+  },
+  {
+    "word": "Logistics",
+    "pronunciation": "/ləˈdʒɪstɪks/",
+    "meaning": "Kho vận, giao nhận, hậu cần",
+    "topic": "Shipping"
+  },
+  {
+    "word": "Retailer",
+    "pronunciation": "/ˈriːteɪlər/",
+    "meaning": "Người (nhà) bán lẻ",
+    "topic": "Shipping",
+    "word_family": "Retail /ˈriːteɪl/ (v,n): Bán lẻ"
+  },
+  {
+    "word": "Handle",
+    "pronunciation": "/ˈhændl/",
+    "meaning": "Xử lý, giải quyết",
+    "topic": "Shipping",
+    "synonym": "Deal with/Address"
+  },
+  {
+    "word": "Merchandise",
+    "pronunciation": "/ˈmɜːrtʃəndaɪz/",
+    "meaning": "Hàng hóa",
+    "topic": "Shipping"
+  },
+  {
+    "word": "Caution",
+    "pronunciation": "/ˈkɔːʃn/",
+    "meaning": "Cảnh báo, thận trọng",
+    "topic": "Shipping",
+    "word_family": "Cautious /ˈkɔːʃəs/ (adj): thận trọng"
+  },
+  {
+    "word": "Acknowledge",
+    "pronunciation": "/əkˈnɑːlɪdʒ/",
+    "meaning": "Thừa nhận ( báo xác nhận), cảm ơn",
+    "topic": "Shipping",
+    "word_family": "Acknowledgement /əkˈnɑːlɪdʒmənt/ (n): Sự thừa nhận"
+  },
+  {
+    "word": "Store",
+    "pronunciation": "/stɔːr/",
+    "meaning": "Lưu trữ",
+    "topic": "Shipping"
+  },
+  {
+    "word": "Duty",
+    "pronunciation": "/ˈduːti/",
+    "meaning": "Thuế (hải quan), bổn phận , trách nhiệm",
+    "topic": "Shipping"
+  },
+  {
+    "word": "Impose",
+    "pronunciation": "/ɪmˈpəʊz/",
+    "meaning": "Áp (thuế, tiền phạt…).",
+    "topic": "Shipping"
+  },
+  {
+    "word": "Detach",
+    "pronunciation": "/dɪˈtætʃ/",
+    "meaning": "Tách rời",
+    "topic": "Shipping"
+  },
+  {
+    "word": "Oversight",
+    "pronunciation": "/ˈəʊvərsaɪt/",
+    "meaning": "",
+    "topic": "Shipping"
+  },
+  {
+    "word": "Sufficient",
+    "pronunciation": "/səˈfɪʃnt/",
+    "meaning": "Đủ, đầy đủ",
+    "topic": "Shipping",
+    "word_family": "Sufficiently /səˈfɪʃntli/ (adv)"
+  },
+  {
+    "word": "Minimize",
+    "pronunciation": "/ˈmɪnɪmaɪz/",
+    "meaning": "Tối thiểu hóa",
+    "topic": "Shipping",
+    "word_family": "Minimal (adj): Nhỏ, tối thiểu"
+  },
+  {
+    "word": "Accurate",
+    "pronunciation": "/ˈækjərət/",
+    "meaning": "Chính xác",
+    "topic": "Shipping",
+    "word_family": "Accuracy /ˈækjərəsi/ (n):  Sự chính xác"
+  },
+  {
+    "word": "Inventory",
+    "pronunciation": "/ˈɪnvəntɔːri/",
+    "meaning": "Sự kiểm kê, hàng hóa tồn kho.",
+    "topic": "Shipping"
+  },
+  {
+    "word": "Terminal",
+    "pronunciation": "/ˈtɜːrmɪnl/",
+    "meaning": "Nhà đón khách, ga cuối",
+    "topic": "Shipping"
+  },
+  {
+    "word": "Quote",
+    "pronunciation": "/kwəʊt/",
+    "meaning": "Trích dẫn, báo giá",
+    "topic": "Shipping"
+  },
+  {
+    "word": "Pick up",
+    "pronunciation": "/pɪk ʌp/",
+    "meaning": "Đón, nhặt, lấy",
+    "topic": "Shipping"
+  },
+  {
+    "word": "Waive",
+    "pronunciation": "/weɪv/",
+    "meaning": "Từ bỏ, khước từ",
+    "topic": "Shipping"
+  },
+  {
+    "word": "Express service",
+    "pronunciation": "/ɪkˈspres ˈsɜːrvɪs/",
+    "meaning": "Dịch vụ tốc hành (nhanh)",
+    "topic": "Shipping"
+  },
+  {
+    "word": "Explore",
+    "pronunciation": "/ɪkˈsplɔːr/",
+    "meaning": "Khám phá, thăm dò, tìm ra",
+    "topic": "Shipping",
+    "word_family": "Exploration /ˌekspləˈreɪʃn/ (n): sự khám phá, thăm dò"
+  },
+  {
+    "word": "Call off (v)",
+    "pronunciation": "",
+    "meaning": "Hủy bỏ",
+    "topic": "Shipping"
+  },
+  {
+    "word": "Comply with",
+    "pronunciation": "/kəmˈplaɪ wɪθ/",
+    "meaning": "Tuân thủ, tuân theo",
+    "topic": "Shipping"
+  },
+  {
+    "word": "",
+    "pronunciation": "/ˌkɑːmpenˈseɪʃn/",
+    "meaning": "Tiền lương, tiền bồi thường",
+    "topic": "Shipping",
+    "word_family": "Compensate /ˈkɑːmpenseɪt/ (v): Bồi thường, bù đắp"
+  },
+  {
+    "word": "Renew",
+    "pronunciation": "/rɪˈnuː/",
+    "meaning": "Gia hạn, đổi mới",
+    "topic": "Shipping",
+    "word_family": "Renewal /rɪˈnuːəl/ (n): sự gia hạn"
+  },
+  {
+    "word": "Inquiry",
+    "pronunciation": "/ɪnˈkwaɪəri/",
+    "meaning": "Câu hỏi, sự điều tra",
+    "topic": "Shipping",
+    "word_family": "Inquire /ɪnˈkwaɪər/ (v): Hỏi, điều tra"
+  },
+  {
+    "word": "Consent",
+    "pronunciation": "/kənˈsent/",
+    "meaning": "Đồng ý, bằng lòng",
+    "topic": "Shipping"
+  },
+  {
+    "word": "Satisfaction",
+    "pronunciation": "/ˌsætɪsˈfækʃn/",
+    "meaning": "Sự hài lòng",
+    "topic": "Shipping",
+    "word_family": "Satisfied /ˈsætɪsfaɪd/ (adj): hài lòng ."
+  },
+  {
+    "word": "Vendor",
+    "pronunciation": "/ˈvendər/",
+    "meaning": "Người bán dạo, nhà cung cấp (đại lý)",
+    "topic": "Shipping"
+  },
+  {
+    "word": "Delay",
+    "pronunciation": "/dɪˈleɪ/",
+    "meaning": "Trì hoãn",
+    "topic": "Shipping"
+  },
+  {
+    "word": "Volume",
+    "pronunciation": "/ˈvɑːljəm/",
+    "meaning": "Khối lượng, số lượng lớn",
+    "topic": "Shipping"
+  },
+  {
+    "word": "Fare",
+    "pronunciation": "/fer/",
+    "meaning": "Tiền vé (xe, máy bay, tàu, thuyền…)",
+    "topic": "Shipping"
+  },
+  {
+    "word": "Obligation",
+    "pronunciation": "/ˌɑːblɪˈɡeɪʃn/",
+    "meaning": "Nhiệm vụ, bổ phận",
+    "topic": "Shipping"
+  },
+  {
+    "word": "Distance",
+    "pronunciation": "/ˈdɪstəns/",
+    "meaning": "Khoảng cách",
+    "topic": "Shipping",
+    "word_family": "Distant /ˈdɪstənt/ (adj): xa, cách xa"
+  },
+  {
+    "word": "Liability",
+    "pronunciation": "/ˌlaɪəˈbɪləti/",
+    "meaning": "Trách nhiệm pháp lý",
+    "topic": "Shipping"
+  }
+]
