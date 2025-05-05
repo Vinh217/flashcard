@@ -1,6 +1,5 @@
 @import "tailwindcss";
 
-
 :root {
   --peach-fuzz: #FFBE98;
   --peach-fuzz-dark: #e6a97e;
@@ -8,6 +7,21 @@
   --foreground: #222;
   --card-bg: #fff;
   --card-shadow: 0 8px 32px 0 rgba(255, 190, 152, 0.12);
+
+  /* Thêm các biến UI component */
+  --primary: #FFBE98;
+  --primary-foreground: #fff;
+  --secondary: #f3f4f6;
+  --secondary-foreground: #111827;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --accent: #f5f3ff;
+  --accent-foreground: #6d28d9;
+  --muted: #f3f4f6;
+  --muted-foreground: #6b7280;
+  --input: #e2e8f0;
+  --border: #e2e8f0;
+  --ring: #FFBE98;
 }
 
 body {

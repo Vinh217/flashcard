@@ -1,9 +1,8 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToMany } from 'typeorm';
-import type { User } from './User.ts';
 import { IRoom } from '../types/entities.ts';
-
-@Entity()
-export class Room implements IRoom {
+import { RoomUser } from './RoomUser.ts';
+@Entity('rooms')
+export class Room implements Partial<IRoom> {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
@@ -11,7 +10,7 @@ export class Room implements IRoom {
   code!: string;
 
   @Column({ default: 'waiting' })
-  status!: 'waiting' | 'playing' | 'ended';
+  status!: 'waiting' | 'playing' | 'finished';
 
   @CreateDateColumn()
   created_at!: Date;
@@ -19,6 +18,9 @@ export class Room implements IRoom {
   @Column({ nullable: true })
   started_at!: Date;
 
-  @OneToMany('User', (user: User) => user.room)
-  players!: User[];
+  @Column({ nullable: true })
+  ended_at!: Date;
+
+  @OneToMany('RoomUser', (roomUser: RoomUser) => roomUser.room)
+  roomUsers!: RoomUser[];
 } 

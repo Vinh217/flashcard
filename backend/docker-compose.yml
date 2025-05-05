@@ -11,7 +11,7 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
-      - "3307:3306"  # Thay đổi port host từ 3306 thành 3307
+      - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
       - ./docker/mysql/init:/docker-entrypoint-initdb.d
@@ -21,27 +21,6 @@ services:
       --skip-host-cache
       --skip-name-resolve
       --innodb_use_native_aio=0
-    networks:
-      - flashcard_network
-
-  backend:
-    build: .
-    container_name: flashcard_backend
-    restart: always
-    ports:
-      - "5000:5000"
-    environment:
-      - NODE_ENV=development
-      - DB_HOST=mysql
-      - DB_PORT=3306
-      - DB_USER=${MYSQL_USER}
-      - DB_PASSWORD=${MYSQL_PASSWORD}
-      - DB_NAME=${MYSQL_DATABASE}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-    depends_on:
-      - mysql
     networks:
       - flashcard_network
 

@@ -2,9 +2,12 @@ import { Server, Socket } from 'socket.io';
 import { AppDataSource } from '../config/database.ts';
 import { Room } from '../entities/Room.ts';
 import { User } from '../entities/User.ts';
+import { RoomUser } from '../entities/RoomUser.ts';
+import { IPlayer } from '../types/entities.ts';
 
 const roomRepository = AppDataSource.getRepository(Room);
 const userRepository = AppDataSource.getRepository(User);
+const roomUserRepository = AppDataSource.getRepository(RoomUser);
 
 interface CreateRoomData {
   username: string;
@@ -19,6 +22,25 @@ interface StartGameData {
   roomCode: string;
 }
 
+// Helper function to transform User to Player object for client
+const mapToPlayer = (user: User, roomUser: RoomUser): IPlayer => ({
+  id: user.id,
+  username: user.username,
+  isHost: user.is_host,
+  score: roomUser.score,
+  socket_id: user.socket_id
+});
+
+// Helper to get all players in a room
+const getPlayersInRoom = async (roomId: string): Promise<IPlayer[]> => {
+  const roomUsers = await roomUserRepository.find({
+    where: { room_id: roomId },
+    relations: ['user']
+  });
+  
+  return roomUsers.map(ru => mapToPlayer(ru.user, ru));
+};
+
 export const setupRoomHandlers = (io: Server, socket: Socket) => {
   // Tạo phòng mới
   socket.on('create_room', async (data: CreateRoomData) => {
@@ -32,14 +54,30 @@ export const setupRoomHandlers = (io: Server, socket: Socket) => {
       });
       await roomRepository.save(room);
 
-      // Tạo người chơi đầu tiên (host)
-      const host = userRepository.create({
-        username: data.username,
-        socket_id: socket.id,
-        is_host: true,
-        room: room
+      // Tạo người dùng mới (hoặc tìm người dùng hiện có)
+      let user = await userRepository.findOne({
+        where: { username: data.username }
       });
-      await userRepository.save(host);
+      
+      if (!user) {
+        user = userRepository.create({
+          username: data.username,
+          is_host: true,
+          socket_id: socket.id
+        });
+      } else {
+        user.is_host = true;
+        user.socket_id = socket.id;
+      }
+      await userRepository.save(user);
+
+      // Tạo liên kết giữa người dùng và phòng
+      const roomUser = roomUserRepository.create({
+        room_id: room.id,
+        user_id: user.id,
+        score: 0
+      });
+      await roomUserRepository.save(roomUser);
 
       socket.join(room.id);
 
@@ -47,13 +85,7 @@ export const setupRoomHandlers = (io: Server, socket: Socket) => {
       socket.emit('room_created', {
         roomId: room.id,
         roomCode: room.code,
-        players: [{
-          id: host.id,
-          username: host.username,
-          isHost: host.is_host,
-          score: host.score,
-          socket_id: host.socket_id
-        }]
+        players: [mapToPlayer(user, roomUser)]
       });
 
       console.log(`Room created: ${roomCode} by ${data.username}`);
@@ -70,8 +102,7 @@ export const setupRoomHandlers = (io: Server, socket: Socket) => {
       
       // Tìm phòng theo mã
       const room = await roomRepository.findOne({
-        where: { code: roomCode },
-        relations: ['players']
+        where: { code: roomCode }
       });
       
       if (!room) {
@@ -84,50 +115,55 @@ export const setupRoomHandlers = (io: Server, socket: Socket) => {
         return;
       }
 
-      // Thêm người chơi mới
-      const player = userRepository.create({
-        username,
-        socket_id: socket.id,
-        is_host: false,
-        room: room
+      // Tạo hoặc tìm người dùng
+      let user = await userRepository.findOne({
+        where: { username }
       });
-      await userRepository.save(player);
+      
+      if (!user) {
+        user = userRepository.create({
+          username,
+          is_host: false,
+          socket_id: socket.id
+        });
+      } else {
+        user.socket_id = socket.id;
+      }
+      await userRepository.save(user);
+
+      // Kiểm tra xem người dùng đã trong phòng chưa
+      const existingRoomUser = await roomUserRepository.findOne({
+        where: {
+          room_id: room.id,
+          user_id: user.id
+        }
+      });
+
+      if (!existingRoomUser) {
+        // Tạo liên kết mới giữa người dùng và phòng
+        const roomUser = roomUserRepository.create({
+          room_id: room.id,
+          user_id: user.id,
+          score: 0
+        });
+        await roomUserRepository.save(roomUser);
+      }
 
       socket.join(room.id);
 
-      // Lấy danh sách người chơi cập nhật
-      const updatedRoom = await roomRepository.findOne({
-        where: { id: room.id },
-        relations: ['players']
-      });
+      // Lấy danh sách người chơi trong phòng
+      const players = await getPlayersInRoom(room.id);
 
-      if (!updatedRoom) {
-        throw new Error('Room not found after update');
-      }
-
-      console.log('room', room)
       // Gửi thông tin phòng cho người tham gia
       socket.emit('room_joined', {
         roomId: room.id,
         roomCode: room.code,
-        players: updatedRoom.players.map(p => ({
-          id: p.id,
-          username: p.username,
-          isHost: p.is_host,
-          score: p.score,
-          socket_id: p.socket_id
-        }))
+        players
       });
 
       // Thông báo cho tất cả người chơi trong phòng
       io.to(room.id).emit('player_joined', {
-        players: updatedRoom.players.map(p => ({
-          id: p.id,
-          username: p.username,
-          isHost: p.is_host,
-          score: p.score,
-          socket_id: p.socket_id
-        }))
+        players
       });
 
       console.log(`${username} joined room ${room.code}`);
@@ -142,8 +178,7 @@ export const setupRoomHandlers = (io: Server, socket: Socket) => {
     try {
       const { roomCode } = data;
       const room = await roomRepository.findOne({
-        where: { code: roomCode },
-        relations: ['players']
+        where: { code: roomCode }
       });
 
       if (!room) {
@@ -151,11 +186,17 @@ export const setupRoomHandlers = (io: Server, socket: Socket) => {
         return;
       }
 
-      if (room.players.length < 2) {
+      // Đếm số lượng người chơi trong phòng
+      const playerCount = await roomUserRepository.count({
+        where: { room_id: room.id }
+      });
+
+      if (playerCount < 2) {
         socket.emit('error', { message: 'Need at least 2 players to start' });
         return;
       }
 
+      // Cập nhật trạng thái phòng
       room.status = 'playing';
       room.started_at = new Date();
       await roomRepository.save(room);
@@ -178,46 +219,45 @@ export const setupRoomHandlers = (io: Server, socket: Socket) => {
   socket.on('disconnect', async () => {
     try {
       // Tìm người chơi theo socket_id
-      const player = await userRepository.findOne({
-        where: { socket_id: socket.id },
-        relations: ['room']
+      const user = await userRepository.findOne({
+        where: { socket_id: socket.id }
       });
 
-      if (player) {
-        const room = player.room;
-        
-        // Xóa người chơi
-        await userRepository.remove(player);
-
-        // Kiểm tra nếu phòng còn người chơi
-        const remainingPlayers = await userRepository.count({
-          where: { room: { id: room.id } }
+      if (user) {
+        // Tìm các phòng mà người dùng tham gia
+        const roomUser = await roomUserRepository.findOne({
+          where: { user_id: user.id },
+          relations: ['room']
         });
 
-        if (remainingPlayers === 0) {
-          // Xóa phòng nếu không còn người chơi
-          await roomRepository.remove(room);
-        } else {
-          // Lấy danh sách người chơi cập nhật
-          const updatedRoom = await roomRepository.findOne({
-            where: { id: room.id },
-            relations: ['players']
+        if (roomUser) {
+          const roomId = roomUser.room_id;
+          
+          // Xóa liên kết giữa người dùng và phòng
+          await roomUserRepository.remove(roomUser);
+
+          // Kiểm tra nếu phòng còn người chơi
+          const remainingPlayers = await roomUserRepository.count({
+            where: { room_id: roomId }
           });
 
-          if (!updatedRoom) {
-            throw new Error('Room not found after update');
+          if (remainingPlayers === 0) {
+            // Xóa phòng nếu không còn người chơi
+            const room = await roomRepository.findOne({
+              where: { id: roomId }
+            });
+            if (room) {
+              await roomRepository.remove(room);
+            }
+          } else {
+            // Lấy danh sách người chơi cập nhật
+            const players = await getPlayersInRoom(roomId);
+
+            // Thông báo cho người chơi còn lại
+            io.to(roomId).emit('player_left', {
+              players
+            });
           }
-
-          // Thông báo cho người chơi còn lại
-          io.to(room.id).emit('player_left', {
-            players: updatedRoom.players.map(p => ({
-              id: p.id,
-              username: p.username,
-              isHost: p.is_host,
-              score: p.score,
-              socket_id: p.socket_id
-            }))
-          });
         }
       }
     } catch (error) {
@@ -232,8 +272,7 @@ export const setupRoomHandlers = (io: Server, socket: Socket) => {
       
       // Tìm phòng theo mã
       const room = await roomRepository.findOne({
-        where: { code: roomCode },
-        relations: ['players']
+        where: { code: roomCode }
       });
 
       if (!room) {
@@ -241,22 +280,21 @@ export const setupRoomHandlers = (io: Server, socket: Socket) => {
         return;
       }
 
-      // Tìm người chơi hiện tại
-      const currentPlayer = await userRepository.findOne({
+      // Lấy danh sách người chơi trong phòng
+      const players = await getPlayersInRoom(room.id);
+
+      // Tìm thông tin người chơi hiện tại
+      const currentUser = await userRepository.findOne({
         where: { socket_id: socket.id }
       });
 
       // Gửi thông tin phòng
       socket.emit('room_info', {
-        players: room.players.map(p => ({
-          id: p.id,
-          username: p.username,
-          isHost: p.is_host,
-          score: p.score,
-          socket_id: p.socket_id
-        })),
+        roomId: room.id,
+        roomCode: room.code,
+        players,
         status: room.status,
-        isHost: currentPlayer?.is_host || false
+        isHost: currentUser?.is_host || false
       });
 
       console.log(`Room info sent for room ${roomCode}`);
@@ -282,23 +320,23 @@ export const setupRoomHandlers = (io: Server, socket: Socket) => {
       }
 
       // Tìm người gửi tin nhắn
-      const sender = await userRepository.findOne({
+      const user = await userRepository.findOne({
         where: { socket_id: socket.id }
       });
 
-      if (!sender) {
+      if (!user) {
         socket.emit('error', { message: 'User not found' });
         return;
       }
 
       // Gửi tin nhắn đến tất cả người chơi trong phòng
       io.to(room.id).emit('chat_message', {
-        username: sender.username,
+        username: user.username,
         content,
         timestamp: Date.now()
       });
 
-      console.log(`Chat message from ${sender.username} in room ${roomCode}`);
+      console.log(`Chat message from ${user.username} in room ${roomCode}`);
     } catch (error) {
       console.error('Error handling chat message:', error);
       socket.emit('error', { message: 'Failed to send message' });

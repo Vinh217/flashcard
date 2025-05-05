@@ -1,17 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
-import type { Room } from './Room.ts';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToMany } from 'typeorm';
 import { IUser } from '../types/entities.ts';
+import { RoomUser } from './RoomUser.ts';
 
-@Entity()
-export class User implements IUser {
+@Entity('users')
+export class User implements Partial<IUser> {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
   @Column()
   username!: string;
-
-  @Column({ default: 0 })
-  score!: number;
 
   @Column({ default: false })
   is_host!: boolean;
@@ -19,7 +16,9 @@ export class User implements IUser {
   @Column()
   socket_id!: string;
 
-  @ManyToOne('Room', (room: Room) => room.players)
-  @JoinColumn({ name: 'room_id' })
-  room!: Room;
+  @CreateDateColumn()
+  created_at!: Date;
+
+  @OneToMany(() => RoomUser, roomUser => roomUser.user)
+  roomUsers!: RoomUser[];
 } 

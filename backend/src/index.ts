@@ -5,6 +5,7 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import { AppDataSource } from './config/database.ts';
 import { setupRoomHandlers } from './controllers/roomController.ts';
+import { setupGameHandlers } from './controllers/gameController.ts';
 
 const app = express();
 const httpServer = createServer(app);
@@ -25,6 +26,7 @@ AppDataSource.initialize()
     io.on('connection', (socket) => {
       console.log('Client connected:', socket.id);
       setupRoomHandlers(io, socket);
+      setupGameHandlers(io, socket);
     });
 
     // Khởi động server

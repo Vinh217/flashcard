@@ -5,7 +5,7 @@ import mysql from 'mysql2/promise';
 async function importData() {
   const connection = await mysql.createConnection({
     host: 'localhost',
-    port: 3307,
+    port: 3306,
     user: 'game_user',
     password: 'root123',
     database: 'flashcard_game'
