@@ -28,6 +28,7 @@ export default function GamePage() {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [hasAnswered, setHasAnswered] = useState(false);
   const [showResults, setShowResults] = useState(false);
+  const [currentMaxScore, setCurrentMaxScore] = useState(100);
   
   // Get current question
   const currentQuestion = questions[currentQuestionIndex];
@@ -39,17 +40,20 @@ export default function GamePage() {
     socket.on('question', (data) => {
       setQuestions(data.questions);
       setTimeLeft(data.timeLeft);
+      setCurrentMaxScore(data.maxScore);
     });
     
     socket.on('next_question', (data) => {
       setCurrentQuestionIndex(data.questionIndex);
       setTimeLeft(data.timeLeft);
+      setCurrentMaxScore(data.maxScore);
       setSelectedOption(null);
       setHasAnswered(false);
     });
     
     socket.on('time_update', (data) => {
       setTimeLeft(data.timeLeft);
+      setCurrentMaxScore(data.currentMaxScore);
     });
     
     socket.on('answer_result', (data) => {
@@ -167,9 +171,25 @@ export default function GamePage() {
           <div className="text-gray-500">
             Question {currentQuestionIndex + 1} of {questions.length}
           </div>
-          <div className="flex items-center bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">
-            <FiClock className="mr-1" /> {timeLeft}s
+          <div className="flex items-center space-x-4">
+            <div className="flex items-center bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">
+              <FiClock className="mr-1" /> {timeLeft}s
+            </div>
+            <div className="flex items-center bg-green-50 text-green-700 px-3 py-1 rounded-full text-sm font-medium">
+              <FiAward className="mr-1" /> {currentMaxScore} pts
+            </div>
           </div>
+        </div>
+        
+        {/* Progress Bar */}
+        <div className="w-full bg-gray-200 rounded-full h-2 mb-6">
+          <div 
+            className="bg-blue-600 h-2 rounded-full transition-all duration-1000 ease-linear"
+            style={{ 
+              width: `${(timeLeft / 15) * 100}%`,
+              background: `linear-gradient(90deg, #3b82f6 ${(timeLeft / 15) * 100}%, #ef4444 ${(timeLeft / 15) * 100}%)`
+            }}
+          />
         </div>
         
         <h2 className="text-2xl font-bold mb-8 text-center border-b pb-4">

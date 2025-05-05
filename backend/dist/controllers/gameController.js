@@ -11,7 +11,9 @@ const vocabularyRepository = AppDataSource.getRepository(Vocabulary);
 const gameQuestionRepository = AppDataSource.getRepository(GameQuestion);
 const gameStates = new Map();
 // Thời gian cho mỗi câu hỏi (giây)
-const QUESTION_TIME = 10;
+const QUESTION_TIME = 15;
+// Thời gian hiển thị kết quả (giây)
+const RESULT_DISPLAY_TIME = 2;
 // Số lượng câu hỏi trong mỗi game
 const QUESTIONS_PER_GAME = 20;
 // Helper để tính điểm dựa trên thời gian trả lời
@@ -111,12 +113,16 @@ const startNewGame = async (io, roomCode) => {
             currentQuestionIndex: 0,
             playerAnswers: new Map(),
             timer: null,
-            timeLeft: QUESTION_TIME
+            timeLeft: QUESTION_TIME,
+            isShowingResults: false,
+            resultsTimer: null,
+            allAnswered: false
         });
         // Gửi câu hỏi đầu tiên
         io.to(room.id).emit('question', {
             questions,
-            timeLeft: QUESTION_TIME
+            timeLeft: QUESTION_TIME,
+            maxScore: 100
         });
         // Bắt đầu bộ đếm thời gian
         startQuestionTimer(io, room.id);
@@ -131,8 +137,14 @@ const startQuestionTimer = (io, roomId) => {
     const gameState = gameStates.get(roomId);
     if (!gameState)
         return;
+    // Dừng timer cũ nếu có
+    if (gameState.timer) {
+        clearInterval(gameState.timer);
+        gameState.timer = null;
+    }
     // Đặt lại thời gian
     gameState.timeLeft = QUESTION_TIME;
+    gameState.questionStartTime = Date.now(); // Lưu thời gian bắt đầu thực sự
     // Tạo bộ đếm mới
     const timer = setInterval(() => {
         const gameState = gameStates.get(roomId);
@@ -140,18 +152,26 @@ const startQuestionTimer = (io, roomId) => {
             clearInterval(timer);
             return;
         }
-        // Giảm thời gian
-        gameState.timeLeft--;
-        // Gửi cập nhật thời gian
-        io.to(roomId).emit('time_update', { timeLeft: gameState.timeLeft });
-        // Kiểm tra nếu hết thời gian
-        if (gameState.timeLeft <= 0) {
-            clearInterval(timer);
-            gameState.timer = null;
-            // Chuyển sang câu hỏi tiếp theo
-            moveToNextQuestion(io, roomId);
+        // Tính thời gian thực tế đã trôi qua
+        const elapsedTime = Math.floor((Date.now() - (gameState.questionStartTime || Date.now())) / 1000);
+        const newTimeLeft = Math.max(0, QUESTION_TIME - elapsedTime);
+        // Chỉ cập nhật nếu thời gian thực sự thay đổi
+        if (newTimeLeft !== gameState.timeLeft) {
+            gameState.timeLeft = newTimeLeft;
+            // Gửi cập nhật thời gian
+            io.to(roomId).emit('time_update', {
+                timeLeft: gameState.timeLeft,
+                currentMaxScore: Math.round(100 * (1 - (QUESTION_TIME - gameState.timeLeft) / QUESTION_TIME * 0.5))
+            });
+            // Kiểm tra nếu hết thời gian
+            if (gameState.timeLeft <= 0) {
+                clearInterval(timer);
+                gameState.timer = null;
+                // Chuyển sang câu hỏi tiếp theo
+                moveToNextQuestion(io, roomId);
+            }
         }
-    }, 1000);
+    }, 100); // Cập nhật mỗi 100ms để có độ chính xác cao hơn
     // Lưu bộ đếm
     gameState.timer = timer;
 };
@@ -160,6 +180,13 @@ const moveToNextQuestion = async (io, roomId) => {
     const gameState = gameStates.get(roomId);
     if (!gameState)
         return;
+    // Reset trạng thái
+    gameState.isShowingResults = false;
+    gameState.allAnswered = false;
+    if (gameState.resultsTimer) {
+        clearTimeout(gameState.resultsTimer);
+        gameState.resultsTimer = null;
+    }
     // Tăng index câu hỏi
     gameState.currentQuestionIndex++;
     // Kiểm tra nếu đã hết câu hỏi
@@ -171,7 +198,8 @@ const moveToNextQuestion = async (io, roomId) => {
     // Gửi câu hỏi tiếp theo
     io.to(roomId).emit('next_question', {
         questionIndex: gameState.currentQuestionIndex,
-        timeLeft: QUESTION_TIME
+        timeLeft: QUESTION_TIME,
+        maxScore: 100
     });
     // Bắt đầu bộ đếm thời gian mới
     startQuestionTimer(io, roomId);
@@ -261,6 +289,10 @@ export const setupGameHandlers = (io, socket) => {
             if (!gameState) {
                 return;
             }
+            // Nếu đang trong giai đoạn hiển thị kết quả, không cho phép trả lời
+            if (gameState.isShowingResults) {
+                return;
+            }
             // Lấy câu hỏi hiện tại
             const currentQuestion = gameState.questions[gameState.currentQuestionIndex];
             if (!currentQuestion || currentQuestion.id !== questionId) {
@@ -296,16 +328,26 @@ export const setupGameHandlers = (io, socket) => {
             });
             const currentQuestionAnswers = Array.from(gameState.playerAnswers.values())
                 .filter(a => a.questionId === questionId);
-            // Nếu tất cả người chơi đã trả lời, chuyển sang câu hỏi tiếp theo
-            if (currentQuestionAnswers.length >= roomUsers.length) {
+            // Nếu tất cả người chơi đã trả lời và chưa đánh dấu là đã trả lời hết
+            if (currentQuestionAnswers.length >= roomUsers.length && !gameState.allAnswered) {
+                // Đánh dấu là tất cả đã trả lời
+                gameState.allAnswered = true;
+                // Dừng timer câu hỏi
                 if (gameState.timer) {
                     clearInterval(gameState.timer);
                     gameState.timer = null;
                 }
-                // Chờ một chút để người chơi xem kết quả
-                setTimeout(() => {
+                // Đánh dấu đang trong giai đoạn hiển thị kết quả
+                gameState.isShowingResults = true;
+                // Gửi thông báo hiển thị kết quả
+                io.to(room.id).emit('show_results', {
+                    questionId,
+                    timeLeft: RESULT_DISPLAY_TIME
+                });
+                // Đặt timer cho việc hiển thị kết quả
+                gameState.resultsTimer = setTimeout(() => {
                     moveToNextQuestion(io, room.id);
-                }, 2000);
+                }, RESULT_DISPLAY_TIME * 1000);
             }
         }
         catch (error) {

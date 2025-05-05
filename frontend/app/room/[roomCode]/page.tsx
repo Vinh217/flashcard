@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useSocket } from '@/app/context/SocketContext';
 import { useGameStore } from '@/app/store/useGameStore';
@@ -22,6 +22,7 @@ export default function RoomPage() {
   }>>([]);
   const [isStarting, setIsStarting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
 
   // Confirm we have a room code
   const currentRoomCode = (params.roomCode as string) || roomCode;
@@ -71,6 +72,15 @@ export default function RoomPage() {
     };
   }, [socket, isConnected, currentRoomCode, roomId]);
 
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTo({
+        top: chatContainerRef.current.scrollHeight,
+        behavior: 'smooth'
+      });
+    }
+  }, [messages]);
+
   const startGame = () => {
     if (!socket || !isConnected) {
       setError('Connection error. Please try again.');
@@ -89,14 +99,13 @@ export default function RoomPage() {
   };
 
   const sendMessage = () => {
-    if (!chatInput.trim() || !socket || !isConnected) return;
-
-    socket.emit('chat_message', {
-      roomCode: currentRoomCode,
-      content: chatInput
-    });
-
-    setChatInput('');
+    if (chatInput.trim() && socket) {
+      socket.emit('chat_message', {
+        roomCode,
+        content: chatInput.trim()
+      });
+      setChatInput('');
+    }
   };
 
   const leaveRoom = () => {
@@ -192,7 +201,10 @@ export default function RoomPage() {
             <FiMessageCircle className="mr-2" /> Chat
           </h2>
           
-          <div className="flex-grow overflow-y-auto mb-4 max-h-96 bg-gray-50 rounded-lg p-4">
+          <div 
+            ref={chatContainerRef}
+            className="flex-grow overflow-y-auto mb-4 max-h-96 bg-gray-50 rounded-lg p-4"
+          >
             {messages.length === 0 ? (
               <div className="h-full flex items-center justify-center text-gray-400">
                 No messages yet. Say hello!

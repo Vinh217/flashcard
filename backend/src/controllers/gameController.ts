@@ -29,6 +29,7 @@ interface GameState {
   isShowingResults: boolean;
   resultsTimer: NodeJS.Timeout | null;
   allAnswered: boolean;
+  questionStartTime?: number;
 }
 
 const gameStates = new Map<string, GameState>();
@@ -36,7 +37,7 @@ const gameStates = new Map<string, GameState>();
 // Thời gian cho mỗi câu hỏi (giây)
 const QUESTION_TIME = 15;
 // Thời gian hiển thị kết quả (giây)
-const RESULT_DISPLAY_TIME = 3;
+const RESULT_DISPLAY_TIME = 2;
 // Số lượng câu hỏi trong mỗi game
 const QUESTIONS_PER_GAME = 20;
 
@@ -161,7 +162,8 @@ const startNewGame = async (io: Server, roomCode: string): Promise<void> => {
     // Gửi câu hỏi đầu tiên
     io.to(room.id).emit('question', { 
       questions,
-      timeLeft: QUESTION_TIME
+      timeLeft: QUESTION_TIME,
+      maxScore: 100
     });
     
     // Bắt đầu bộ đếm thời gian
@@ -176,9 +178,16 @@ const startNewGame = async (io: Server, roomCode: string): Promise<void> => {
 const startQuestionTimer = (io: Server, roomId: string): void => {
   const gameState = gameStates.get(roomId);
   if (!gameState) return;
+
+  // Dừng timer cũ nếu có
+  if (gameState.timer) {
+    clearInterval(gameState.timer);
+    gameState.timer = null;
+  }
   
   // Đặt lại thời gian
   gameState.timeLeft = QUESTION_TIME;
+  gameState.questionStartTime = Date.now(); // Lưu thời gian bắt đầu thực sự
   
   // Tạo bộ đếm mới
   const timer = setInterval(() => {
@@ -188,21 +197,30 @@ const startQuestionTimer = (io: Server, roomId: string): void => {
       return;
     }
     
-    // Giảm thời gian
-    gameState.timeLeft--;
+    // Tính thời gian thực tế đã trôi qua
+    const elapsedTime = Math.floor((Date.now() - (gameState.questionStartTime || Date.now())) / 1000);
+    const newTimeLeft = Math.max(0, QUESTION_TIME - elapsedTime);
     
-    // Gửi cập nhật thời gian
-    io.to(roomId).emit('time_update', { timeLeft: gameState.timeLeft });
-    
-    // Kiểm tra nếu hết thời gian
-    if (gameState.timeLeft <= 0) {
-      clearInterval(timer);
-      gameState.timer = null;
+    // Chỉ cập nhật nếu thời gian thực sự thay đổi
+    if (newTimeLeft !== gameState.timeLeft) {
+      gameState.timeLeft = newTimeLeft;
       
-      // Chuyển sang câu hỏi tiếp theo
-      moveToNextQuestion(io, roomId);
+      // Gửi cập nhật thời gian
+      io.to(roomId).emit('time_update', { 
+        timeLeft: gameState.timeLeft,
+        currentMaxScore: Math.round(100 * (1 - (QUESTION_TIME - gameState.timeLeft) / QUESTION_TIME * 0.5))
+      });
+      
+      // Kiểm tra nếu hết thời gian
+      if (gameState.timeLeft <= 0) {
+        clearInterval(timer);
+        gameState.timer = null;
+        
+        // Chuyển sang câu hỏi tiếp theo
+        moveToNextQuestion(io, roomId);
+      }
     }
-  }, 1000);
+  }, 100); // Cập nhật mỗi 100ms để có độ chính xác cao hơn
   
   // Lưu bộ đếm
   gameState.timer = timer;
@@ -234,7 +252,8 @@ const moveToNextQuestion = async (io: Server, roomId: string): Promise<void> => 
   // Gửi câu hỏi tiếp theo
   io.to(roomId).emit('next_question', { 
     questionIndex: gameState.currentQuestionIndex,
-    timeLeft: QUESTION_TIME
+    timeLeft: QUESTION_TIME,
+    maxScore: 100
   });
   
   // Bắt đầu bộ đếm thời gian mới
