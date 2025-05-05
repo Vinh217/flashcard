@@ -1,103 +1,283 @@
-import Image from "next/image";
+'use client';
+
+import { useState, useEffect } from 'react';
+import Flashcard from './components/Flashcard';
+
+const topicFiles = [
+  { name: "Tổng hợp", file: "all" },
+  { name: "Job", file: "job.json" },
+  { name: "Advertising Marketing Promotion", file: "advertising_marketing_promotion.json" },
+  { name: "Manufacturing", file: "manufacturing.json" },
+  { name: "Shipping", file: "shipping.json" },
+  { name: "Technology Internet", file: "technology_internet.json" },
+  { name: "Contract Law", file: "contract_law.json" },
+  { name: "Shopping", file: "shopping.json" },
+  { name: "Travel And Tourism", file: "travel_and_tourisim.json" },
+  { name: "Real Estate Banking", file: "real_estate_banking.json" },
+  { name: "Cuisine Leisure", file: "cuisine_leisure.json" },
+  { name: "Custom", file: "custom" },
+];
+
+interface VocabularyItem {
+  word: string;
+  pronunciation?: string;
+  meaning: string;
+  topic: string;
+  synonym?: string;
+  word_family?: string;
+  example?: string[];
+}
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [selectedTopic, setSelectedTopic] = useState(topicFiles[0].file);
+  const [vocabulary, setVocabulary] = useState<VocabularyItem[]>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
+  // Email state
+  const [email, setEmail] = useState<string | null>(null);
+  const [emailInput, setEmailInput] = useState("");
+
+  // Form state cho custom
+  const [newWord, setNewWord] = useState("");
+  const [newPronunciation, setNewPronunciation] = useState("");
+  const [newMeaning, setNewMeaning] = useState("");
+
+  // Lấy email từ localStorage khi load app
+  useEffect(() => {
+    const saved = localStorage.getItem("user_email");
+    if (saved) setEmail(saved);
+  }, []);
+
+  // Load dữ liệu topic
+  useEffect(() => {
+    if (!email && selectedTopic === "custom") return;
+    setLoading(true);
+    setError("");
+    setCurrentIndex(0);
+    if (selectedTopic === "all") {
+      // Gộp tất cả topic + custom nếu có email
+      const topicFetches = topicFiles
+        .filter(t => t.file !== "all" && t.file !== "custom")
+        .map(t => fetch(`/topic/${t.file}`).then(res => res.json()));
+      const customFetch = email
+        ? fetch(`/api/custom-vocab?email=${encodeURIComponent(email)}`).then(res => res.json())
+        : Promise.resolve([]);
+      Promise.all([...topicFetches, customFetch])
+        .then(results => {
+          // Gộp tất cả các mảng lại
+          const all = ([] as VocabularyItem[]).concat(...results);
+          setVocabulary(all);
+          setLoading(false);
+        })
+        .catch(() => {
+          setError("Lỗi tải dữ liệu tổng hợp");
+          setLoading(false);
+        });
+    } else if (selectedTopic === "custom") {
+      // Lấy custom từ API
+      fetch(`/api/custom-vocab?email=${encodeURIComponent(email!)}`)
+        .then((res) => {
+          if (!res.ok) throw new Error("Không thể tải dữ liệu");
+          return res.json();
+        })
+        .then((data) => {
+          setVocabulary(data);
+          setLoading(false);
+        })
+        .catch(() => {
+          setError("Lỗi tải dữ liệu từ vựng");
+          setLoading(false);
+        });
+    } else {
+      fetch(`/topic/${selectedTopic}`)
+        .then((res) => {
+          if (!res.ok) throw new Error("Không thể tải dữ liệu");
+          return res.json();
+        })
+        .then((data) => {
+          setVocabulary(data);
+          setLoading(false);
+        })
+        .catch(() => {
+          setError("Lỗi tải dữ liệu từ vựng");
+          setLoading(false);
+        });
+    }
+  }, [selectedTopic, email]);
+
+  // Thêm từ mới vào custom (gửi lên API)
+  const handleAddCustom = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newWord || !newMeaning || !email) return;
+    const newItem: VocabularyItem = {
+      word: newWord,
+      pronunciation: newPronunciation,
+      meaning: newMeaning,
+      topic: "Custom",
+    };
+    setLoading(true);
+    await fetch(`/api/custom-vocab?email=${encodeURIComponent(email)}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newItem),
+    });
+    setNewWord("");
+    setNewPronunciation("");
+    setNewMeaning("");
+    // Reload lại custom vocab
+    fetch(`/api/custom-vocab?email=${encodeURIComponent(email)}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setVocabulary(data);
+        setCurrentIndex(data.length - 1);
+        setLoading(false);
+      });
+  };
+
+  const handleNext = () => {
+    setCurrentIndex((prev) => (prev + 1) % vocabulary.length);
+  };
+  const handlePrevious = () => {
+    setCurrentIndex((prev) => (prev - 1 + vocabulary.length) % vocabulary.length);
+  };
+  const handleRandom = () => {
+    if (vocabulary.length > 1) {
+      // Fisher-Yates shuffle
+      const arr = [...vocabulary];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      setVocabulary(arr);
+      setCurrentIndex(0);
+    }
+  };
+
+  useEffect(() => {
+    setCurrentIndex(0);
+  }, [vocabulary]);
+
+  // Xử lý login/logout email
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!emailInput) return;
+    localStorage.setItem("user_email", emailInput);
+    setEmail(emailInput);
+    setEmailInput("");
+  };
+  const handleLogout = () => {
+    localStorage.removeItem("user_email");
+    setEmail(null);
+    setVocabulary([]);
+    setSelectedTopic(topicFiles[0].file);
+  };
+
+  if (!email) {
+    return (
+      <main className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
+        <form onSubmit={handleLogin} className="bg-white p-8 rounded shadow flex flex-col gap-4">
+          <h2 className="text-xl font-bold text-center">Nhập email để sử dụng Flashcard</h2>
+          <input
+            className="border rounded px-3 py-2"
+            placeholder="Email của bạn"
+            value={emailInput}
+            onChange={e => setEmailInput(e.target.value)}
+            required
+            type="email"
+          />
+          <button type="submit" className="btn btn-primary">Tiếp tục</button>
+        </form>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+    );
+  }
+
+  return (
+    <main className="min-h-screen p-8 bg-gray-100">
+      <div className="max-w-4xl mx-auto">
+        <div className="flex justify-end mb-2">
+          <span className="mr-4 text-gray-600">{email}</span>
+          <button onClick={handleLogout} className="btn">Đăng xuất</button>
+        </div>
+        <h1 className="text-3xl font-bold text-center mb-8">
+          TOEIC Vocabulary Flashcards
+        </h1>
+        {/* Tab topic */}
+        <div className="topic-scroll mb-8">
+          {topicFiles.map((topic) => (
+            <button
+              key={topic.file}
+              onClick={() => setSelectedTopic(topic.file)}
+              className={`topic-btn max-w-[140px] truncate overflow-hidden whitespace-nowrap ${selectedTopic === topic.file ? "selected" : ""}`}
+              title={topic.name}
+            >
+              {topic.name}
+            </button>
+          ))}
+        </div>
+        {/* Form thêm từ mới cho custom */}
+        {selectedTopic === "custom" && (
+          <form onSubmit={handleAddCustom} className="mb-8 flex flex-col md:flex-row gap-2 items-center justify-center">
+            <input
+              className="border rounded px-3 py-2 w-40"
+              placeholder="Từ mới"
+              value={newWord}
+              onChange={e => setNewWord(e.target.value)}
+              required
+            />
+            <input
+              className="border rounded px-3 py-2 w-40"
+              placeholder="Phiên âm"
+              value={newPronunciation}
+              onChange={e => setNewPronunciation(e.target.value)}
+            />
+            <input
+              className="border rounded px-3 py-2 w-60"
+              placeholder="Nghĩa tiếng Việt"
+              value={newMeaning}
+              onChange={e => setNewMeaning(e.target.value)}
+              required
+            />
+            <button type="submit" className="btn btn-primary">Thêm từ</button>
+          </form>
+        )}
+        {/* Flashcard */}
+        <div className="flex justify-center mb-8 min-h-[260px]">
+          {loading ? (
+            <div className="text-gray-500 text-lg">Đang tải dữ liệu...</div>
+          ) : error ? (
+            <div className="text-red-500 text-lg">{error}</div>
+          ) : vocabulary.length > 0 ? (
+            <Flashcard
+              word={vocabulary[currentIndex].word}
+              meaning={vocabulary[currentIndex].meaning}
+              topic={vocabulary[currentIndex].topic}
+              pronunciation={vocabulary[currentIndex].pronunciation}
+              synonym={vocabulary[currentIndex].synonym}
+              word_family={vocabulary[currentIndex].word_family}
+              example={vocabulary[currentIndex].example}
+            />
+          ) : (
+            <p className="text-center text-gray-500">Không có từ vựng cho chủ đề này</p>
+          )}
+        </div>
+        {/* Navigation buttons + Random */}
+        <div className="flex justify-center gap-4">
+          <button onClick={handlePrevious} className="btn" disabled={vocabulary.length === 0 || loading}>
+            Previous
+          </button>
+          <span className="card-index">
+            {vocabulary.length > 0 ? currentIndex + 1 : 0} / {vocabulary.length}
+          </span>
+          <button onClick={handleNext} className="btn" disabled={vocabulary.length === 0 || loading}>
+            Next
+          </button>
+          <button onClick={handleRandom} className="btn btn-primary" disabled={vocabulary.length === 0 || loading}>
+            Random
+          </button>
+        </div>
+      </div>
+    </main>
   );
 }
