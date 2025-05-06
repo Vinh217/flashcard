@@ -5,11 +5,18 @@ import React from 'react';
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
 
 export function Input({
-  className,
+  className = '',
   type = 'text',
   ...props
 }: InputProps) {
-  const classes = `flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${className || ''}`;
+  const classes = [
+    'flex h-12 w-full rounded-2xl border-2 border-bubble-blue bg-surface px-4 py-2 text-base shadow-bubble',
+    'placeholder:text-bubble-purple',
+    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus:border-primary',
+    'transition-all duration-200',
+    'disabled:cursor-not-allowed disabled:opacity-50',
+    className
+  ].join(' ');
 
   return (
     <input

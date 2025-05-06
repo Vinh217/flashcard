@@ -35,7 +35,7 @@ export default function PageLoading() {
   if (!isLoading) return null;
 
   return (
-    <div className="fixed inset-0 bg-white/80 backdrop-blur-sm z-50 flex items-center justify-center">
+    <div className="fixed inset-0 bg-bubble-dark/80 backdrop-blur-md z-50 flex items-center justify-center">
       <Loading className="w-16 h-16" />
     </div>
   );

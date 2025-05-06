@@ -21,7 +21,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     // Create socket connection
-    const socketInstance = io('http://localhost:5000', {
+    const socketInstance = io(process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3010', {
       reconnectionDelay: 1000,
       reconnection: true,
       transports: ['websocket'],
