@@ -7,6 +7,7 @@ import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { useGameStore } from '../store/useGameStore';
 import Loading from '@/app/components/Loading';
+import BackgroundBubbles from '@/app/components/BackgroundBubbles';
 
 export default function MultiplayerPage() {
   const router = useRouter();
@@ -99,42 +100,39 @@ export default function MultiplayerPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-10">
-      <h1 className="text-3xl font-bold mb-8 text-center">Flashcard Game - Multiplayer</h1>
-      
-      <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden p-6">
-        <div className="mb-4">
-          <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
-            Your Name
-          </label>
-          <Input
-            id="username"
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="Enter your name"
-            className="w-full"
-          />
-        </div>
-        
-        <div className="grid grid-cols-2 gap-4 mt-6">
+    <div className="relative min-h-screen bg-bubble-gradient overflow-hidden flex items-center justify-center">
+      <BackgroundBubbles />
+      <div className="max-w-md w-full mx-auto flex flex-col items-center relative z-10">
+        <h1 className="text-3xl font-bold mb-8 text-center text-[#a084e8]">Flashcard Game - Multiplayer</h1>
+        <div className="w-full bg-[#3d1a7a] border-2 border-[#5ce1e6] rounded-2xl shadow-lg p-8">
+          <div className="mb-6">
+            <label htmlFor="username" className="block text-sm font-medium text-[#e0e0e0] mb-2">
+              Your Name
+            </label>
+            <Input
+              id="username"
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Enter your name"
+              className="w-full bg-[#2d0665] border border-[#5ce1e6] text-[#22223b] placeholder-[#a084e8] rounded-xl py-3 px-4 focus:ring-2 focus:ring-[#5ce1e6] focus:outline-none shadow-sm"
+            />
+          </div>
           <Button 
-            variant="outline"
+            variant="bubble"
             onClick={createRoom}
             disabled={isCreating || !isConnected}
-             className="col-span-2"
+            className="w-full mb-6 rounded-xl font-bold py-3 shadow-md"
           >
             {isCreating ? 'Creating...' : 'Create Room'}
           </Button>
-          
-          <div className="col-span-2 flex items-center justify-center">
-            <div className="border-t border-gray-300 flex-grow mx-4"></div>
-            <span className="text-gray-500">OR</span>
-            <div className="border-t border-gray-300 flex-grow mx-4"></div>
+          <div className="flex items-center justify-center my-4">
+            <div className="border-t border-[#a084e8] flex-grow mx-4"></div>
+            <span className="text-[#a084e8] px-4">OR</span>
+            <div className="border-t border-[#a084e8] flex-grow mx-4"></div>
           </div>
-          
-          <div className="col-span-2 mb-4">
-            <label htmlFor="roomCode" className="block text-sm font-medium text-gray-700 mb-1">
+          <div className="mb-6">
+            <label htmlFor="roomCode" className="block text-sm font-medium text-[#e0e0e0] mb-2">
               Room Code
             </label>
             <Input
@@ -143,31 +141,28 @@ export default function MultiplayerPage() {
               value={roomCode}
               onChange={(e) => setRoomCode(e.target.value.toUpperCase())}
               placeholder="Enter room code"
-              className="w-full"
+              className="w-full bg-[#2d0665] border border-[#5ce1e6] text-[#22223b] placeholder-[#a084e8] rounded-xl py-3 px-4 focus:ring-2 focus:ring-[#5ce1e6] focus:outline-none shadow-sm"
             />
           </div>
-          
           <Button 
-            variant="outline" 
+            variant="bubble" 
             onClick={joinRoom}
             disabled={isJoining || !isConnected}
-            className="col-span-2"
+            className="w-full rounded-xl font-bold py-3 shadow-md"
           >
             {isJoining ? 'Joining...' : 'Join Room'}
           </Button>
+          {error && (
+            <div className="mt-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg animate-fade-in">
+              {error}
+            </div>
+          )}
+          {!isConnected && (
+            <div className="mt-6 flex justify-center">
+              <Loading text="Connecting to server..." />
+            </div>
+          )}
         </div>
-        
-        {error && (
-          <div className="mt-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded">
-            {error}
-          </div>
-        )}
-        
-        {!isConnected && (
-          <div className="mt-4 flex justify-center">
-            <Loading text="Connecting to server..." />
-          </div>
-        )}
       </div>
     </div>
   );

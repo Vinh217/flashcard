@@ -7,6 +7,7 @@ import { useGameStore } from '@/app/store/useGameStore';
 import { Button } from '@/app/components/ui/button';
 import { Input } from '@/app/components/ui/input';
 import { FiUserPlus, FiMessageCircle, FiPlay, FiLogOut } from 'react-icons/fi';
+import BackgroundBubbles from '@/app/components/BackgroundBubbles';
 
 export default function RoomPage() {
   const params = useParams();
@@ -132,111 +133,122 @@ export default function RoomPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-6">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Room Info Section */}
-        <div className="md:col-span-1 bg-white rounded-xl shadow-md overflow-hidden p-6">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold">Room</h2>
-            <div className="flex space-x-2">
-              <Button 
-                variant="outline" 
-                onClick={copyRoomCode}
-              >
-                Copy Code
-              </Button>
-              <Button 
-                variant="outline" 
-                onClick={leaveRoom}
-              >
-                <FiLogOut />
-              </Button>
-            </div>
-          </div>
-          
-          <div className="bg-gray-100 p-3 rounded-lg mb-6 flex justify-center">
-            <span className="text-2xl font-mono font-bold tracking-wider">
-              {currentRoomCode}
-            </span>
-          </div>
-          
-          <div className="mb-6">
-            <h3 className="text-lg font-semibold mb-2 flex items-center">
-              <FiUserPlus className="mr-2" /> Players ({players.length})
-            </h3>
-            <ul className="divide-y divide-gray-200">
-              {players.map(player => (
-                <li key={player.id} className="py-3 flex justify-between items-center">
-                  <span>{player.username}</span>
-                  {player.isHost && (
-                    <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Host</span>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </div>
-          
-          {isHost && (
-            <Button 
-              variant="outline"
-              onClick={startGame}
-              disabled={isStarting || players.length < 2}
-              className="w-full flex items-center justify-center"
-            >
-              <FiPlay className="mr-2" />
-              {isStarting ? 'Starting...' : 'Start Game'}
-            </Button>
-          )}
-          
-          {error && (
-            <div className="mt-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded text-sm">
-              {error}
-            </div>
-          )}
-        </div>
-        
-        {/* Chat Section */}
-        <div className="md:col-span-2 bg-white rounded-xl shadow-md overflow-hidden p-6 flex flex-col">
-          <h2 className="text-2xl font-bold mb-4 flex items-center">
-            <FiMessageCircle className="mr-2" /> Chat
-          </h2>
-          
-          <div 
-            ref={chatContainerRef}
-            className="flex-grow overflow-y-auto mb-4 max-h-96 bg-gray-50 rounded-lg p-4"
-          >
-            {messages.length === 0 ? (
-              <div className="h-full flex items-center justify-center text-gray-400">
-                No messages yet. Say hello!
+    <div className="relative min-h-screen bg-bubble-gradient overflow-hidden flex items-center justify-center">
+      <BackgroundBubbles />
+      <div className="container mx-auto px-4 py-6 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Room Info Section */}
+          <div className="md:col-span-1 bg-bubble-dark/80 border-2 border-bubble-blue rounded-2xl shadow-bubble p-6">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Room</h2>
+              <div className="flex space-x-2">
+                <Button 
+                  variant="outline" 
+                  onClick={copyRoomCode}
+                  className="bg-blue-50 text-blue-600 hover:bg-blue-100 transition-all duration-200"
+                >
+                  Copy Code
+                </Button>
+                <Button 
+                  variant="outline" 
+                  onClick={leaveRoom}
+                  className="bg-red-50 text-red-600 hover:bg-red-100 transition-all duration-200"
+                >
+                  <FiLogOut />
+                </Button>
               </div>
-            ) : (
-              <div className="space-y-3">
-                {messages.map((msg, index) => (
-                  <div key={index} className="bg-white rounded-lg p-3 shadow-sm">
-                    <div className="flex justify-between">
-                      <span className="font-semibold">{msg.username}</span>
-                      <span className="text-xs text-gray-500">
-                        {new Date(msg.timestamp).toLocaleTimeString()}
-                      </span>
-                    </div>
-                    <p className="mt-1">{msg.content}</p>
-                  </div>
+            </div>
+            
+            <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-4 rounded-lg mb-6 flex justify-center border border-blue-100">
+              <span className="text-2xl font-mono font-bold tracking-wider text-blue-600">
+                {currentRoomCode}
+              </span>
+            </div>
+            
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold mb-3 flex items-center text-gray-700">
+                <FiUserPlus className="mr-2 text-blue-500" /> Players ({players.length})
+              </h3>
+              <ul className="divide-y divide-gray-100">
+                {players.map(player => (
+                  <li key={player.id} className="py-3 flex justify-between items-center hover:bg-gray-50 transition-colors duration-200 px-2 rounded">
+                    <span className="font-medium">{player.username}</span>
+                    {player.isHost && (
+                      <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full font-medium">Host</span>
+                    )}
+                  </li>
                 ))}
+              </ul>
+            </div>
+            
+            {isHost && (
+              <Button 
+                variant="bubble"
+                onClick={startGame}
+                disabled={isStarting || players.length < 2}
+                className="w-full flex items-center justify-center font-bold rounded-xl py-3 shadow-md"
+              >
+                <FiPlay className="mr-2" />
+                {isStarting ? 'Starting...' : 'Start Game'}
+              </Button>
+            )}
+            
+            {error && (
+              <div className="mt-4 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg animate-fade-in">
+                {error}
               </div>
             )}
           </div>
           
-          <div className="flex space-x-2">
-            <Input
-              value={chatInput}
-              onChange={(e) => setChatInput(e.target.value)}
-              placeholder="Type a message..."
-              onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
-              disabled={!isConnected}
-            />
-            <Button variant="outline" onClick={sendMessage} disabled={!isConnected}>
-              Send
-            </Button>
+          {/* Chat Section */}
+          <div className="md:col-span-2 bg-bubble-dark/80 border-2 border-bubble-blue rounded-2xl shadow-bubble p-6 flex flex-col">
+            <h2 className="text-2xl font-bold mb-4 flex items-center bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              <FiMessageCircle className="mr-2" /> Chat
+            </h2>
+            
+            <div 
+              ref={chatContainerRef}
+              className="flex-grow overflow-y-auto mb-4 max-h-96 bg-gray-50 rounded-lg p-4 border border-gray-100"
+            >
+              {messages.length === 0 ? (
+                <div className="h-full flex items-center justify-center text-gray-400">
+                  No messages yet. Say hello!
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {messages.map((msg, index) => (
+                    <div key={index} className="bg-white rounded-lg p-3 shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-200">
+                      <div className="flex justify-between">
+                        <span className="font-semibold text-blue-600">{msg.username}</span>
+                        <span className="text-xs text-gray-500">
+                          {new Date(msg.timestamp).toLocaleTimeString()}
+                        </span>
+                      </div>
+                      <p className="mt-1 text-gray-700">{msg.content}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+            
+            <div className="flex space-x-2">
+              <Input
+                value={chatInput}
+                onChange={(e) => setChatInput(e.target.value)}
+                placeholder="Type a message..."
+                onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
+                disabled={!isConnected}
+                className="flex-grow transition-all duration-200 focus:ring-2 focus:ring-blue-500"
+              />
+              <Button 
+                variant="outline" 
+                onClick={sendMessage} 
+                disabled={!isConnected}
+                className="bg-blue-500 text-white hover:bg-blue-600 transition-all duration-200"
+              >
+                Send
+              </Button>
+            </div>
           </div>
         </div>
       </div>
