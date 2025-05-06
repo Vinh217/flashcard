@@ -1,9 +1,9 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import Loading from './Loading';
 
-export default function PageLoading() {
+function PageLoadingContent() {
   const [isLoading, setIsLoading] = useState(false);
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -38,5 +38,13 @@ export default function PageLoading() {
     <div className="fixed inset-0 bg-bubble-dark/80 backdrop-blur-md z-50 flex items-center justify-center">
       <Loading className="w-16 h-16" />
     </div>
+  );
+}
+
+export default function PageLoading() {
+  return (
+    <Suspense fallback={null}>
+      <PageLoadingContent />
+    </Suspense>
   );
 } 

@@ -1,5 +1,5 @@
-import { useLottie } from 'lottie-react';
 import { FC, useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
 
 interface Keyframe {
   a: number;
@@ -59,6 +59,11 @@ interface AnimationProps {
   onComplete?: () => void;
 }
 
+// Dynamically import Lottie with no SSR
+const LottieAnimation = dynamic(() => import('./LottieAnimation'), {
+  ssr: false,
+});
+
 const Animation: FC<AnimationProps> = ({ type, className, onComplete }) => {
   const [animationData, setAnimationData] = useState<AnimationData | null>(null);
 
@@ -91,20 +96,18 @@ const Animation: FC<AnimationProps> = ({ type, className, onComplete }) => {
     loadAnimation();
   }, [type]);
 
-  const { View } = useLottie({
-    animationData,
-    loop: type === 'loading' || type === 'login',
-    autoplay: true,
-    onComplete,
-  });
-
   if (!animationData) {
     return null;
   }
 
   return (
     <div className={className}>
-      {View}
+      <LottieAnimation
+        animationData={animationData}
+        loop={type === 'loading' || type === 'login'}
+        autoplay={true}
+        onComplete={onComplete}
+      />
     </div>
   );
 };
