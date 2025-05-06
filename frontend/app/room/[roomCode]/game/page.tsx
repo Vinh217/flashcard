@@ -6,6 +6,8 @@ import { useSocket } from '@/app/context/SocketContext';
 import { useGameStore } from '@/app/store/useGameStore';
 import { Button } from '@/app/components/ui/button';
 import { FiClock, FiCheck, FiX, FiAward } from 'react-icons/fi';
+import Loading from '@/app/components/Loading';
+import CorrectAnswerAnimation from '@/app/components/CorrectAnswerAnimation';
 
 export default function GamePage() {
   const params = useParams();
@@ -29,6 +31,8 @@ export default function GamePage() {
   const [hasAnswered, setHasAnswered] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const [currentMaxScore, setCurrentMaxScore] = useState(100);
+  const [showCorrectAnimation, setShowCorrectAnimation] = useState(false);
+  const [animationPosition, setAnimationPosition] = useState({ x: 0, y: 0 });
   
   // Get current question
   const currentQuestion = questions[currentQuestionIndex];
@@ -41,6 +45,7 @@ export default function GamePage() {
       setQuestions(data.questions);
       setTimeLeft(data.timeLeft);
       setCurrentMaxScore(data.maxScore);
+      setShowCorrectAnimation(false);
     });
     
     socket.on('next_question', (data) => {
@@ -49,6 +54,7 @@ export default function GamePage() {
       setCurrentMaxScore(data.maxScore);
       setSelectedOption(null);
       setHasAnswered(false);
+      setShowCorrectAnimation(false);
     });
     
     socket.on('time_update', (data) => {
@@ -91,7 +97,7 @@ export default function GamePage() {
     }
   }, [socket, isConnected, questions.length, roomCode, showResults]);
   
-  const handleSelectOption = (optionId: string) => {
+  const handleSelectOption = (optionId: string, event: React.MouseEvent) => {
     if (hasAnswered || timeLeft === 0) return;
     
     setSelectedOption(optionId);
@@ -104,7 +110,21 @@ export default function GamePage() {
         questionId: currentQuestion.id,
         optionId
       });
+
+      // Check if the answer is correct and show animation
+      const isCorrect = currentQuestion.options.find(opt => opt.id === optionId)?.isCorrect;
+      if (isCorrect) {
+        setAnimationPosition({
+          x: event.clientX,
+          y: event.clientY
+        });
+        setShowCorrectAnimation(true);
+      }
     }
+  };
+  
+  const handleAnimationComplete = () => {
+    setShowCorrectAnimation(false);
   };
   
   const returnToLobby = () => {
@@ -160,14 +180,21 @@ export default function GamePage() {
   
   if (!currentQuestion) {
     return (
-      <div className="container mx-auto px-4 py-10 text-center">
-        <p>Loading game...</p>
+      <div className="container mx-auto px-4 py-10 flex justify-center items-center">
+        <Loading text="Loading game..." />
       </div>
     );
   }
   
   return (
     <div className="container mx-auto px-4 py-10">
+      {showCorrectAnimation && (
+        <CorrectAnswerAnimation
+          x={animationPosition.x}
+          y={animationPosition.y}
+          onComplete={handleAnimationComplete}
+        />
+      )}
       <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden p-6">
         <div className="flex justify-between items-center mb-6">
           <div className="text-gray-500">
@@ -224,7 +251,7 @@ export default function GamePage() {
               <button
                 key={option.id}
                 className={buttonClass}
-                onClick={() => handleSelectOption(option.id)}
+                onClick={(e) => handleSelectOption(option.id, e)}
                 disabled={hasAnswered || timeLeft === 0}
               >
                 <div className="flex justify-between items-center">

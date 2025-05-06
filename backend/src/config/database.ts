@@ -4,7 +4,7 @@ import { RoomUser } from '../entities/RoomUser.js';
 import { User } from '../entities/User.js';
 import { Vocabulary } from '../entities/Vocabulary.js';
 import { GameQuestion } from '../entities/GameQuestion.js';
-
+import { Topic } from '../entities/Topic.js';
 
 export const AppDataSource = new DataSource({
   type: 'mysql',
@@ -15,7 +15,7 @@ export const AppDataSource = new DataSource({
   database: process.env.MYSQL_DATABASE,
   synchronize: false,
   logging: false,
-  entities: [Room, User, RoomUser, Vocabulary, GameQuestion],
+  entities: [Room, User, RoomUser, Vocabulary, GameQuestion, Topic],
   subscribers: [],
   migrations: [],
 });

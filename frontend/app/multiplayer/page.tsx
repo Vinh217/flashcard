@@ -6,6 +6,7 @@ import { useSocket } from '../context/SocketContext';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { useGameStore } from '../store/useGameStore';
+import Loading from '@/app/components/Loading';
 
 export default function MultiplayerPage() {
   const router = useRouter();
@@ -163,8 +164,8 @@ export default function MultiplayerPage() {
         )}
         
         {!isConnected && (
-          <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 text-yellow-700 rounded">
-            Connecting to server...
+          <div className="mt-4 flex justify-center">
+            <Loading text="Connecting to server..." />
           </div>
         )}
       </div>

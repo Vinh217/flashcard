@@ -1,76 +1,55 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Flashcard from '../components/Flashcard';
-
-interface VocabularyItem {
-  word: string;
-  pronunciation?: string;
-  meaning: string;
-  topic: string;
-  synonym?: string;
-  word_family?: string;
-  example?: string[];
-}
-
-const topicFiles = [
-  { name: "Tổng hợp", file: "all" },
-  { name: "Job", file: "job.json" },
-  { name: "Advertising Marketing Promotion", file: "advertising_marketing_promotion.json" },
-  { name: "Manufacturing", file: "manufacturing.json" },
-  { name: "Shipping", file: "shipping.json" },
-  { name: "Technology Internet", file: "technology_internet.json" },
-  { name: "Contract Law", file: "contract_law.json" },
-  { name: "Shopping", file: "shopping.json" },
-  { name: "Travel And Tourism", file: "travel_and_tourisim.json" },
-  { name: "Real Estate Banking", file: "real_estate_banking.json" },
-  { name: "Cuisine Leisure", file: "cuisine_leisure.json" },
-  { name: "Custom", file: "custom" },
-];
+import Flashcard from '../components/practice/Flashcard';
+import api from '@/lib/axios';
+import { Topic, Vocabulary } from '@/types/api';
+import Loading from '@/app/components/Loading';
 
 export default function PracticePage() {
-  const [selectedTopic, setSelectedTopic] = useState(topicFiles[0].file);
-  const [vocabulary, setVocabulary] = useState<VocabularyItem[]>([]);
+  const [topics, setTopics] = useState<Topic[]>([]);
+  const [selectedTopicId, setSelectedTopicId] = useState<string | null>(null);
+  const [vocabulary, setVocabulary] = useState<Vocabulary[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Load dữ liệu topic
+  // Load topics
   useEffect(() => {
+    api.get<Topic[]>('/api/topics')
+      .then(data => {
+        setTopics(data);
+        if (data.length > 0) {
+          setSelectedTopicId(data[0].id);
+        }
+      })
+      .catch(() => {
+        setError("Lỗi tải danh sách chủ đề");
+      });
+  }, []);
+
+  // Load vocabulary when topic changes
+  useEffect(() => {
+    if (!selectedTopicId) return;
+    
     setLoading(true);
     setError("");
     setCurrentIndex(0);
-    if (selectedTopic === "all") {
-      // Gộp tất cả các topic (trừ all và custom)
-      const topicFetches = topicFiles
-        .filter(t => t.file !== "all" && t.file !== "custom")
-        .map(t => fetch(`/topic/${t.file}`).then(res => res.json()));
-      Promise.all(topicFetches)
-        .then(results => {
-          const all = ([] as VocabularyItem[]).concat(...results);
-          setVocabulary(all);
-          setLoading(false);
-        })
-        .catch(() => {
-          setError("Lỗi tải dữ liệu tổng hợp");
-          setLoading(false);
-        });
-    } else {
-      fetch(`/topic/${selectedTopic}`)
-        .then((res) => {
-          if (!res.ok) throw new Error("Không thể tải dữ liệu");
-          return res.json();
-        })
-        .then((data) => {
-          setVocabulary(data);
-          setLoading(false);
-        })
-        .catch(() => {
-          setError("Lỗi tải dữ liệu từ vựng");
-          setLoading(false);
-        });
-    }
-  }, [selectedTopic]);
+    
+    const url = selectedTopicId === 'all' 
+      ? '/api/vocabulary'
+      : `/api/vocabulary?topicId=${selectedTopicId}`;
+      
+    api.get<Vocabulary[]>(url)
+      .then(data => {
+        setVocabulary(data);
+        setLoading(false);
+      })
+      .catch(() => {
+        setError("Lỗi tải dữ liệu từ vựng");
+        setLoading(false);
+      });
+  }, [selectedTopicId]);
 
   const handleNext = () => {
     setCurrentIndex((prev) => (prev + 1) % vocabulary.length);
@@ -102,11 +81,19 @@ export default function PracticePage() {
       
       {/* Tab topic */}
       <div className="topic-scroll mb-4 w-full max-w-md mx-auto">
-        {topicFiles.filter(t => t.file !== 'custom').map((topic) => (
+        <button
+          key="all"
+          onClick={() => setSelectedTopicId('all')}
+          className={`topic-btn max-w-[120px] truncate overflow-hidden whitespace-nowrap ${selectedTopicId === 'all' ? "selected" : ""}`}
+          title="Tổng hợp"
+        >
+          Tổng hợp
+        </button>
+        {topics.map((topic) => (
           <button
-            key={topic.file}
-            onClick={() => setSelectedTopic(topic.file)}
-            className={`topic-btn max-w-[120px] truncate overflow-hidden whitespace-nowrap ${selectedTopic === topic.file ? "selected" : ""}`}
+            key={topic.id}
+            onClick={() => setSelectedTopicId(topic.id)}
+            className={`topic-btn max-w-[120px] truncate overflow-hidden whitespace-nowrap ${selectedTopicId === topic.id ? "selected" : ""}`}
             title={topic.name}
           >
             {topic.name}
@@ -118,18 +105,18 @@ export default function PracticePage() {
       <div className="flex justify-center mb-6 w-full">
         <div className="w-full flex justify-center">
           {loading ? (
-            <div className="text-gray-500 text-lg">Đang tải dữ liệu...</div>
+            <Loading text="Đang tải dữ liệu..." />
           ) : error ? (
             <div className="text-red-500 text-lg">{error}</div>
           ) : vocabulary.length > 0 ? (
             <Flashcard
               word={vocabulary[currentIndex].word}
               meaning={vocabulary[currentIndex].meaning}
-              topic={vocabulary[currentIndex].topic}
+              topic={vocabulary[currentIndex].topic_name}
               pronunciation={vocabulary[currentIndex].pronunciation}
               synonym={vocabulary[currentIndex].synonym}
               word_family={vocabulary[currentIndex].word_family}
-              example={vocabulary[currentIndex].example}
+              example={typeof vocabulary[currentIndex].example === 'string' ? vocabulary[currentIndex].example.split('\n') : undefined}
             />
           ) : (
             <p className="text-center text-gray-500">Không có từ vựng cho chủ đề này</p>

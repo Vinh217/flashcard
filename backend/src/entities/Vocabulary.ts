@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { IVocabulary } from '../types/entities';
+import { Topic } from './Topic.js';
 
 @Entity('vocabulary')
 export class Vocabulary implements Partial<IVocabulary> {
@@ -29,4 +30,8 @@ export class Vocabulary implements Partial<IVocabulary> {
 
   @CreateDateColumn()
   created_at!: Date;
+
+  @ManyToOne(() => Topic)
+  @JoinColumn({ name: 'topic_id' })
+  topic!: Topic;
 } 
