@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  --font-display: "Inter", "Segoe UI", Arial, sans-serif;
+  --font-display: "Quicksand", "Segoe UI", Arial, sans-serif;
   --color-primary: #A259FF;
   --color-primary-foreground: #fff;
   --color-secondary: #38E4AE;
@@ -105,7 +105,6 @@ body {
 
 .card-topic {
   font-size: 1rem;
-  color: var(--color-bubble-blue);
   margin-bottom: 0.5rem;
   font-weight: 500;
   letter-spacing: 0.01em;

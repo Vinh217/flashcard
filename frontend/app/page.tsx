@@ -14,7 +14,7 @@ export default function Home() {
         <div className="absolute bg-accent opacity-20 rounded-full w-40 h-40 left-1/2 bottom-[-4rem] animate-float" style={{ animationDelay: '2s' }} />
       </div>
       <div className="relative max-w-3xl w-full text-center z-10">
-        <h1 className="text-5xl font-extrabold mb-6 text-white drop-shadow-lg tracking-tight animate-float">Quizizz 2025</h1>
+        <h1 className="text-5xl font-extrabold mb-6 text-white drop-shadow-lg tracking-tight animate-float">FlashCard Game 2025</h1>
         <p className="text-xl text-bubble-light mb-12 font-medium animate-pulse-fast">
           Test your vocabulary knowledge with our flashcard game!
         </p>
@@ -28,7 +28,7 @@ export default function Home() {
             </div>
             <h2 className="text-2xl font-bold mb-2 text-bubble-blue">Multiplayer Mode</h2>
             <p className="text-bubble-light mb-4">
-              Join with friends in real-time and compete to see who knows the most vocabulary!
+              Join with friends in real-time to see who knows the most vocabulary!
             </p>
             <Button variant="bubble" className="w-full mt-2">Play Now</Button>
           </a>

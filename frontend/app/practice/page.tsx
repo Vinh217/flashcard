@@ -92,7 +92,7 @@ export default function PracticePage() {
             key="all"
             variant={selectedTopicId === 'all' ? 'bubble' : 'outline'}
             onClick={() => setSelectedTopicId('all')}
-            className={`max-w-[160px] truncate overflow-hidden whitespace-nowrap mr-2 ${selectedTopicId === 'all' ? 'shadow-neon' : ''}`}
+            className={`w-full whitespace-nowrapwhitespace-nowrap mr-2 ${selectedTopicId === 'all' ? 'shadow-neon' : ''}`}
             type="button"
             title="Tổng hợp"
           >
@@ -103,7 +103,7 @@ export default function PracticePage() {
               key={topic.id}
               variant={selectedTopicId === topic.id ? 'bubble' : 'outline'}
               onClick={() => setSelectedTopicId(topic.id)}
-              className={`max-w-[160px] truncate overflow-hidden whitespace-nowrap mr-2 ${selectedTopicId === topic.id ? 'shadow-neon' : ''}`}
+              className={`w-full whitespace-nowrap mr-2 ${selectedTopicId === topic.id ? 'shadow-neon' : ''}`}
               type="button"
               title={topic.name}
             >

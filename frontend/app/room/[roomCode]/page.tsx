@@ -171,7 +171,7 @@ export default function RoomPage() {
               </h3>
               <ul className="divide-y divide-gray-100">
                 {players.map(player => (
-                  <li key={player.id} className="py-3 flex justify-between items-center hover:bg-gray-50 transition-colors duration-200 px-2 rounded">
+                  <li key={player.id} className="py-3 flex justify-between items-center transition-colors duration-200 px-2 rounded">
                     <span className="font-medium">{player.username}</span>
                     {player.isHost && (
                       <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full font-medium">Host</span>
@@ -238,10 +238,10 @@ export default function RoomPage() {
                 placeholder="Type a message..."
                 onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
                 disabled={!isConnected}
-                className="flex-grow transition-all duration-200 focus:ring-2 focus:ring-blue-500"
+                className="w-full bg-[#2d0665] border border-[#5ce1e6] text-[#22223b] placeholder-[#a084e8] rounded-xl py-3 px-4 focus:ring-2 focus:ring-[#5ce1e6] focus:outline-none shadow-sm"
               />
               <Button 
-                variant="outline" 
+                variant="bubble" 
                 onClick={sendMessage} 
                 disabled={!isConnected}
                 className="bg-blue-500 text-white hover:bg-blue-600 transition-all duration-200"

@@ -35,9 +35,9 @@ interface GameState {
 const gameStates = new Map<string, GameState>();
 
 // Thời gian cho mỗi câu hỏi (giây)
-const QUESTION_TIME = 15;
+const QUESTION_TIME = 10;
 // Thời gian hiển thị kết quả (giây)
-const RESULT_DISPLAY_TIME = 2;
+const RESULT_DISPLAY_TIME = 0.5;
 // Số lượng câu hỏi trong mỗi game
 const QUESTIONS_PER_GAME = 20;
 
