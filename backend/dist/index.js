@@ -3,9 +3,12 @@ import 'dotenv/config';
 import express from 'express';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
+import cors from 'cors';
 import { AppDataSource } from './config/database.js';
 import { setupRoomHandlers } from './controllers/roomController.js';
 import { setupGameHandlers } from './controllers/gameController.js';
+import topicRoutes from './routes/topic.routes.js';
+import vocabularyRoutes from './routes/vocabulary.routes.js';
 const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
@@ -15,6 +18,17 @@ const io = new Server(httpServer, {
         credentials: true
     }
 });
+// CORS configuration
+app.use(cors({
+    origin: process.env.CLIENT_URL || 'http://localhost:3000',
+    methods: ['GET', 'POST'],
+    credentials: true
+}));
+// Middleware
+app.use(express.json());
+// Routes
+app.use('/api/topics', topicRoutes);
+app.use('/api/vocabulary', vocabularyRoutes);
 // Khởi tạo kết nối database
 AppDataSource.initialize()
     .then(() => {

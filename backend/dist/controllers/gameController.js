@@ -11,9 +11,9 @@ const vocabularyRepository = AppDataSource.getRepository(Vocabulary);
 const gameQuestionRepository = AppDataSource.getRepository(GameQuestion);
 const gameStates = new Map();
 // Thời gian cho mỗi câu hỏi (giây)
-const QUESTION_TIME = 15;
+const QUESTION_TIME = 10;
 // Thời gian hiển thị kết quả (giây)
-const RESULT_DISPLAY_TIME = 2;
+const RESULT_DISPLAY_TIME = 0.5;
 // Số lượng câu hỏi trong mỗi game
 const QUESTIONS_PER_GAME = 20;
 // Helper để tính điểm dựa trên thời gian trả lời

@@ -7,7 +7,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Topic } from './Topic.js';
 let Vocabulary = class Vocabulary {
 };
 __decorate([
@@ -46,6 +47,11 @@ __decorate([
     CreateDateColumn(),
     __metadata("design:type", Date)
 ], Vocabulary.prototype, "created_at", void 0);
+__decorate([
+    ManyToOne(() => Topic),
+    JoinColumn({ name: 'topic_id' }),
+    __metadata("design:type", Topic)
+], Vocabulary.prototype, "topic", void 0);
 Vocabulary = __decorate([
     Entity('vocabulary')
 ], Vocabulary);

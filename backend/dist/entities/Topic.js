@@ -8,44 +8,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToMany } from 'typeorm';
-import { RoomUser } from './RoomUser.js';
-import { UserProgress } from './UserProgress.js';
-import { UserAnswer } from './UserAnswer.js';
-let User = class User {
+import { Vocabulary } from './Vocabulary.js';
+let Topic = class Topic {
 };
 __decorate([
     PrimaryGeneratedColumn('uuid'),
     __metadata("design:type", String)
-], User.prototype, "id", void 0);
+], Topic.prototype, "id", void 0);
 __decorate([
-    Column(),
+    Column({ unique: true }),
     __metadata("design:type", String)
-], User.prototype, "username", void 0);
-__decorate([
-    Column({ default: false }),
-    __metadata("design:type", Boolean)
-], User.prototype, "is_host", void 0);
-__decorate([
-    Column(),
-    __metadata("design:type", String)
-], User.prototype, "socket_id", void 0);
+], Topic.prototype, "name", void 0);
 __decorate([
     CreateDateColumn(),
     __metadata("design:type", Date)
-], User.prototype, "created_at", void 0);
+], Topic.prototype, "created_at", void 0);
 __decorate([
-    OneToMany(() => RoomUser, roomUser => roomUser.user),
+    OneToMany(() => Vocabulary, vocabulary => vocabulary.topic),
     __metadata("design:type", Array)
-], User.prototype, "roomUsers", void 0);
-__decorate([
-    OneToMany(() => UserProgress, progress => progress.user),
-    __metadata("design:type", Array)
-], User.prototype, "progress", void 0);
-__decorate([
-    OneToMany(() => UserAnswer, answer => answer.user),
-    __metadata("design:type", Array)
-], User.prototype, "answers", void 0);
-User = __decorate([
-    Entity('users')
-], User);
-export { User };
+], Topic.prototype, "vocabularies", void 0);
+Topic = __decorate([
+    Entity('topics')
+], Topic);
+export { Topic };

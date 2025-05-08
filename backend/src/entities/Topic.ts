@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToMany } from 'typeorm';
-import { Vocabulary } from './Vocabulary.js';
+import type { Vocabulary } from './Vocabulary.js';
 
 @Entity('topics')
 export class Topic {
@@ -12,6 +12,6 @@ export class Topic {
   @CreateDateColumn()
   created_at!: Date;
 
-  @OneToMany(() => Vocabulary, vocabulary => vocabulary.topic)
+  @OneToMany('Vocabulary', (vocabulary: Vocabulary) => vocabulary.topic)
   vocabularies!: Vocabulary[];
 } 

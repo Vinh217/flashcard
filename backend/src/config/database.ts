@@ -5,6 +5,10 @@ import { User } from '../entities/User.js';
 import { Vocabulary } from '../entities/Vocabulary.js';
 import { GameQuestion } from '../entities/GameQuestion.js';
 import { Topic } from '../entities/Topic.js';
+import { Question } from '../entities/Question.js';
+import { UserProgress } from '../entities/UserProgress.js';
+import { UserAnswer } from '../entities/UserAnswer.js';
+import { AIGeneratedContent } from '../entities/AIGeneratedContent.js';
 
 export const AppDataSource = new DataSource({
   type: 'mysql',
@@ -15,9 +19,12 @@ export const AppDataSource = new DataSource({
   database: process.env.MYSQL_DATABASE,
   synchronize: false,
   logging: false,
-  entities: [Room, User, RoomUser, Vocabulary, GameQuestion, Topic],
+  entities: [Room, User, RoomUser, Vocabulary, GameQuestion, Topic, Question, UserAnswer, UserProgress, AIGeneratedContent],
   subscribers: [],
-  migrations: [],
+  migrations: [
+    'src/migrations/*.ts'
+  ],
+  migrationsTableName: "migrations"
 });
 
 // Khởi tạo kết nối

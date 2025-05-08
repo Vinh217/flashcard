@@ -7,6 +7,9 @@
     "dev": "node --loader ts-node/esm src/index.ts",
     "build": "tsc",
     "typeorm": "typeorm-ts-node-esm",
+    "migration:generate": "node -r dotenv/config --loader ts-node/esm ./node_modules/typeorm/cli.js migration:generate src/migrations/migrations -d src/config/database.ts",
+    "migration:run": "node -r dotenv/config --loader ts-node/esm ./node_modules/typeorm/cli.js migration:run -d src/config/database.ts",
+    "migration:revert": "node -r dotenv/config --loader ts-node/esm ./node_modules/typeorm/cli.js migration:revert -d src/config/database.ts",
     "pm2:start": "pm2 start ecosystem.config.js",
     "pm2:stop": "pm2 stop ecosystem.config.js",
     "pm2:restart": "pm2 restart ecosystem.config.js",
@@ -18,6 +21,7 @@
     "dotenv": "^16.5.0",
     "express": "^4.18.2",
     "mysql2": "^3.6.0",
+    "openai": "^4.97.0",
     "reflect-metadata": "^0.1.13",
     "socket.io": "^4.7.2",
     "typeorm": "^0.3.17"

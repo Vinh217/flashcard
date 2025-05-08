@@ -9,6 +9,7 @@ import { setupRoomHandlers } from './controllers/roomController.js';
 import { setupGameHandlers } from './controllers/gameController.js';
 import topicRoutes from './routes/topic.routes.js';
 import vocabularyRoutes from './routes/vocabulary.routes.js';
+import questionRoutes from './routes/question.routes.js';
 
 const app = express();
 const httpServer = createServer(app);
@@ -33,6 +34,7 @@ app.use(express.json());
 // Routes
 app.use('/api/topics', topicRoutes);
 app.use('/api/vocabulary', vocabularyRoutes);
+app.use('/api/questions', questionRoutes);
 
 // Khởi tạo kết nối database
 AppDataSource.initialize()
